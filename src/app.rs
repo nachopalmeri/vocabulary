@@ -14,8 +14,8 @@ use std::collections::HashSet;
 use std::path::PathBuf;
 
 use crate::csvio::{self, Format, ImportReport};
-use crate::model::{Collection, Config, Entry, Rng, ThemeMode};
-use crate::rotation::{Rotation, eligible_ids};
+use crate::model::{Collection, Config, Entry, PresentationMode, Rng, ThemeMode};
+use crate::rotation::{Rotation, eligible_ids, eligible_ids_in_collections};
 use crate::samples;
 use crate::store::{self, Paths, Source};
 use crate::theme;
@@ -63,7 +63,9 @@ pub enum Action {
 pub struct CardContent {
     pub word: String,
     pub meaning: String,
-    /// `source · English → Spanish`
+    pub example: String,
+    pub presentation: PresentationMode,
+    /// meta
     pub meta: String,
     pub has_entry: bool,
     pub learned: bool,
@@ -89,11 +91,13 @@ pub struct App {
     pub details_hwnd: Option<HWND>,
     pub import_hwnd: Option<HWND>,
     pub pending_import: Option<ImportReport>,
+    pub pending_import_target: Option<String>,
     pub notice: Option<(String, bool)>,
     pub save_error_reported: bool,
     pub startup_entry_ok: bool,
     /// Newer on-disk schema detected; startup must stop before any write.
     pub fatal_error: Option<String>,
+    pub first_run_setup: bool,
 }
 
 impl App {
@@ -136,10 +140,12 @@ impl App {
             details_hwnd: None,
             import_hwnd: None,
             pending_import: None,
+            pending_import_target: None,
             notice: None,
             save_error_reported: false,
             startup_entry_ok: true,
             fatal_error,
+            first_run_setup: first_run,
         };
         app.rotation.set_order(app.config.order);
         app.ensure_current();
@@ -182,16 +188,14 @@ impl App {
     }
 
     pub fn eligible(&self) -> Vec<String> {
-        match self.active() {
-            Some(collection) => eligible_ids(&collection.entries, self.config.exclude_learned),
-            None => Vec::new(),
-        }
+        eligible_ids_in_collections(&self.library, &self.config)
     }
 
     pub fn current_entry(&self) -> Option<&Entry> {
-        let id = self.rotation.current()?;
-        let collection = self.active()?;
-        collection.entries.iter().find(|entry| entry.id == id)
+        let composite = self.rotation.current()?;
+        let (collection_id, entry_id) = composite.split_once("::")?;
+        let collection = self.library.collection(collection_id)?;
+        collection.entries.iter().find(|entry| entry.id == entry_id)
     }
 
     pub fn can_navigate(&self) -> bool {
@@ -206,6 +210,8 @@ impl App {
                 word: "No collection yet".to_string(),
                 meaning: "Open Manage collections from the tray menu to create one, or import a CSV/JSON file."
                     .to_string(),
+                example: String::new(),
+                presentation: self.config.presentation,
                 meta: String::new(),
                 has_entry: false,
                 learned: false,
@@ -219,6 +225,8 @@ impl App {
                 word: format!("“{}” is empty", truncate(&collection.name, 28)),
                 meaning: "Add words with Manage collections, or import a CSV/JSON vocabulary file."
                     .to_string(),
+                example: String::new(),
+                presentation: self.config.presentation,
                 meta: String::new(),
                 has_entry: false,
                 learned: false,
@@ -233,6 +241,8 @@ impl App {
                 meaning:
                     "Use “Review again” to bring a word back into rotation, or add new entries."
                         .to_string(),
+                example: String::new(),
+                presentation: self.config.presentation,
                 meta: format!(
                     "{} · {} entries",
                     truncate(&collection.name, 24),
@@ -249,7 +259,15 @@ impl App {
             Some(entry) => CardContent {
                 word: entry.word.clone(),
                 meaning: entry.meaning.clone(),
-                meta: meta_line(entry, collection),
+                example: entry.example.clone(),
+                presentation: self.config.presentation,
+                meta: self
+                    .rotation
+                    .current()
+                    .and_then(|id| id.split_once("::"))
+                    .and_then(|(cid, _)| self.library.collection(cid))
+                    .map(|c| meta_line(entry, c))
+                    .unwrap_or_else(|| meta_line(entry, collection)),
                 has_entry: true,
                 learned: entry.learned,
                 paused,
@@ -259,6 +277,8 @@ impl App {
             None => CardContent {
                 word: "—".to_string(),
                 meaning: "Press Next to show a word.".to_string(),
+                example: String::new(),
+                presentation: self.config.presentation,
                 meta: truncate(&collection.name, 40),
                 has_entry: false,
                 learned: false,
@@ -308,12 +328,17 @@ impl App {
     }
 
     pub fn mark_learned(&mut self) {
-        let Some(id) = self.rotation.current().map(|id| id.to_string()) else {
+        let Some(composite) = self.rotation.current().map(|id| id.to_string()) else {
             return;
         };
+        let Some((collection_id, entry_id)) = composite.split_once("::") else {
+            return;
+        };
+        let collection_id = collection_id.to_string();
+        let entry_id = entry_id.to_string();
         let mut changed = false;
-        if let Some(collection) = self.active_mut() {
-            if let Some(entry) = collection.entries.iter_mut().find(|e| e.id == id) {
+        if let Some(collection) = self.library.collection_mut(&collection_id) {
+            if let Some(entry) = collection.entries.iter_mut().find(|e| e.id == entry_id) {
                 if !entry.learned {
                     entry.learned = true;
                     changed = true;
@@ -323,7 +348,7 @@ impl App {
         if changed {
             self.save_library();
             // Move on to the next word; the learned entry is no longer eligible.
-            self.rotation.set_current(Some(id));
+            self.rotation.set_current(Some(composite.clone()));
             self.advance(true);
             self.restart_timer();
         }
@@ -337,18 +362,30 @@ impl App {
                 // Nothing shown (for example every entry is learned): take the
                 // most recently learned entry back into rotation.
                 let candidate = self
-                    .active()
-                    .and_then(|collection| collection.entries.iter().rev().find(|e| e.learned))
-                    .map(|entry| entry.id.clone());
+                    .config
+                    .selected_collections
+                    .iter()
+                    .find_map(|cid| {
+                        self.library.collection(cid).and_then(|collection| {
+                            collection
+                                .entries
+                                .iter()
+                                .rev()
+                                .find(|e| e.learned)
+                                .map(|e| format!("{}::{}", cid, e.id))
+                        })
+                    });
                 match candidate {
                     Some(id) => id,
                     None => return,
                 }
             }
         };
-        if let Some(collection) = self.active_mut() {
-            if let Some(entry) = collection.entries.iter_mut().find(|e| e.id == id) {
-                entry.learned = false;
+        if let Some((collection_id, entry_id)) = id.split_once("::") {
+            if let Some(collection) = self.library.collection_mut(collection_id) {
+                if let Some(entry) = collection.entries.iter_mut().find(|e| e.id == entry_id) {
+                    entry.learned = false;
+                }
             }
         }
         self.rotation.set_current(Some(id));
@@ -510,18 +547,18 @@ impl App {
     }
 
     fn report_save_result(&mut self, result: Result<(), String>) {
-        if let Err(error) = result {
-            if !self.save_error_reported {
-                self.save_error_reported = true;
-                let paths = self.paths.root.display().to_string();
-                self.queue_notice(
-                    format!(
-                        "WordDock could not save your data.\n\n{error}\n\n\
+        if let Err(error) = result
+            && !self.save_error_reported
+        {
+            self.save_error_reported = true;
+            let paths = self.paths.root.display().to_string();
+            self.queue_notice(
+                format!(
+                    "WordDock could not save your data.\n\n{error}\n\n\
                          Changes stay in memory until WordDock can write to {paths}."
-                    ),
-                    true,
-                );
-            }
+                ),
+                true,
+            );
         }
     }
 
@@ -685,6 +722,13 @@ impl App {
         Some(unsafe { *Box::from_raw(pointer) })
     }
 
+    pub fn start_import_into(&mut self, path: PathBuf, target: String) {
+        if self.library.collection(&target).is_some() {
+            self.pending_import_target = Some(target);
+        }
+        self.start_import(path);
+    }
+
     pub fn finish_import(&mut self, report: ImportReport) {
         if let Some(error) = &report.error {
             let message = format!(
@@ -717,7 +761,10 @@ impl App {
         };
         let entries = report.to_entries(include_duplicates, &mut self.rng);
         let added = entries.len();
-        let target_id = self.library.active_collection.clone();
+        let target_id = self
+            .pending_import_target
+            .take()
+            .or_else(|| self.library.active_collection.clone());
         if let Some(id) = target_id {
             if let Some(collection) = self.library.collection_mut(&id) {
                 collection.entries.extend(entries);
@@ -759,11 +806,7 @@ impl App {
         };
         let title = format!("Export collection as {}", format.label());
         // File dialogs pump messages, so nothing borrowed from `self` is alive here.
-        let Some(path) =
-            win::pick_save_file(owner, &title, &filters, format.extension(), &default_name)
-        else {
-            return None;
-        };
+        let path = win::pick_save_file(owner, &title, &filters, format.extension(), &default_name)?;
         let collection = self.active()?;
         let result = match format {
             Format::Csv => std::fs::write(&path, csvio::to_csv(&collection.entries))
@@ -843,13 +886,14 @@ impl App {
             self.details_hwnd,
             self.collections_hwnd,
             self.settings_hwnd,
-        ] {
-            if let Some(hwnd) = hwnd {
-                // SAFETY: destroying windows owned by this application; each
-                // WM_NCDESTROY handler releases its own state.
-                unsafe {
-                    let _ = DestroyWindow(hwnd);
-                }
+        ]
+        .into_iter()
+        .flatten()
+        {
+            // SAFETY: destroying windows owned by this application; each
+            // WM_NCDESTROY handler releases its own state.
+            unsafe {
+                let _ = DestroyWindow(hwnd);
             }
         }
         if let Some(hwnd) = self.card.hwnd.take() {
@@ -907,7 +951,7 @@ pub extern "system" fn controller_proc(
             if !app_ptr.is_null() {
                 // SAFETY: valid for the duration of this message.
                 let app = unsafe { &mut *app_ptr };
-                let event = win::loword(lparam.0) as u32;
+                let event = win::loword(lparam.0);
                 use windows::Win32::UI::WindowsAndMessaging::{
                     WM_CONTEXTMENU, WM_LBUTTONUP, WM_RBUTTONUP,
                 };

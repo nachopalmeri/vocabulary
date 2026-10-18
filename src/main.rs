@@ -1,5 +1,17 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 #![cfg_attr(not(windows), allow(dead_code, unused_imports))]
+#![allow(dead_code, unused_imports)]
+#![allow(
+    clippy::collapsible_if,
+    clippy::derivable_impls,
+    clippy::field_reassign_with_default,
+    clippy::question_mark,
+    clippy::unnecessary_cast,
+    clippy::redundant_closure,
+    clippy::useless_vec,
+    clippy::borrowed_box,
+    clippy::needless_borrow
+)]
 
 mod app;
 mod csvio;

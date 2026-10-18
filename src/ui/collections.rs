@@ -490,39 +490,37 @@ pub extern "system" fn proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam: LPARAM
                         app.set_active_collection(&cid);
                     }
                 } else if command == id::COL_DELETE {
-                    if let Some(cid) = selected_collection(unsafe { &*pointer }, hwnd) {
-                        if win::confirm(
+                    if let Some(cid) = selected_collection(unsafe { &*pointer }, hwnd)
+                        && win::confirm(
                             hwnd,
                             "Delete this collection and all its entries? This cannot be undone.",
                             "WordDock",
-                        ) {
-                            app.library.collections.retain(|c| c.id != cid);
-                            if app.library.active_collection.as_deref() == Some(&cid) {
-                                app.library.active_collection =
-                                    app.library.collections.first().map(|c| c.id.clone());
-                                app.rotation.reset();
-                            }
-                            app.ensure_current();
-                            app.save_library();
-                            app.restart_timer();
-                            app.refresh_card();
+                        )
+                    {
+                        app.library.collections.retain(|c| c.id != cid);
+                        if app.library.active_collection.as_deref() == Some(&cid) {
+                            app.library.active_collection =
+                                app.library.collections.first().map(|c| c.id.clone());
+                            app.rotation.reset();
                         }
+                        app.ensure_current();
+                        app.save_library();
+                        app.restart_timer();
+                        app.refresh_card();
                     }
                 } else if command == id::ENTRY_DELETE {
                     if let (Some(cid), Some(eid)) = (
                         selected_collection(unsafe { &*pointer }, hwnd),
                         selected_entry(unsafe { &*pointer }, hwnd),
+                    ) && win::confirm(
+                        hwnd,
+                        "Delete this vocabulary entry? This cannot be undone.",
+                        "WordDock",
                     ) {
-                        if win::confirm(
-                            hwnd,
-                            "Delete this vocabulary entry? This cannot be undone.",
-                            "WordDock",
-                        ) {
-                            if let Some(c) = app.library.collection_mut(&cid) {
-                                c.entries.retain(|e| e.id != eid);
-                            }
-                            app.after_entries_changed();
+                        if let Some(c) = app.library.collection_mut(&cid) {
+                            c.entries.retain(|e| e.id != eid);
                         }
+                        app.after_entries_changed();
                     }
                 } else if command == id::ENTRY_IMPORT {
                     let filters = [

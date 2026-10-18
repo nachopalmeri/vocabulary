@@ -359,7 +359,7 @@ fn parse_csv_report(
                 .cloned()
                 .unwrap_or_default()
         };
-        let mut row = ImportRow::from_fields(&fields);
+        let mut row = ImportRow::from_fields(fields);
         row.row = record.line;
         row.status = validate_row(&row, existing_keys, &mut seen);
         rows.push(row);
@@ -462,7 +462,7 @@ fn parse_json_report(
                         }
                     }
                 };
-                let mut row = ImportRow::from_fields(&field);
+                let mut row = ImportRow::from_fields(field);
                 row.row = index + 1;
                 if let Some(message) = invalid.into_inner() {
                     row.status = RowStatus::Invalid(message);

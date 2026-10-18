@@ -18,10 +18,10 @@ use std::ffi::c_void;
 use windows::Win32::Foundation::{HINSTANCE, HWND, LPARAM, LRESULT, RECT, WPARAM};
 use windows::Win32::Graphics::Gdi::{CreateSolidBrush, FillRect, HBRUSH, HDC, HFONT};
 use windows::Win32::UI::WindowsAndMessaging::{
-    BM_GETCHECK, BS_AUTOCHECKBOX, BS_DEFPUSHBUTTON, BS_LEFT, CB_ADDSTRING, CB_GETCURSEL,
-    CB_SETCURSEL, CBS_DROPDOWNLIST, CreateWindowExW, ES_AUTOHSCROLL, ES_AUTOVSCROLL, ES_MULTILINE,
-    ES_READONLY, ES_WANTRETURN, GA_ROOT, GetAncestor, GetClientRect, HMENU, IsDialogMessageW,
-    LB_ADDSTRING, LB_DELETESTRING, LB_INITSTORAGE, LB_RESETCONTENT, LB_SETCURSEL,
+    BS_AUTOCHECKBOX, BS_DEFPUSHBUTTON, BS_LEFT, CB_ADDSTRING, CB_GETCURSEL, CB_SETCURSEL,
+    CBS_DROPDOWNLIST, CreateWindowExW, ES_AUTOHSCROLL, ES_AUTOVSCROLL, ES_MULTILINE, ES_READONLY,
+    ES_WANTRETURN, GA_ROOT, GetAncestor, GetClientRect, HMENU, IsDialogMessageW, LB_ADDSTRING,
+    LB_GETSELCOUNT, LB_GETSELITEMS, LB_RESETCONTENT, LB_SETCURSEL, LB_SETSEL, LBS_MULTIPLESEL,
     LBS_NOINTEGRALHEIGHT, LBS_NOTIFY, MSG, RegisterClassExW, SW_SHOW, SWP_NOACTIVATE, SWP_NOZORDER,
     SendMessageW, SetForegroundWindow, SetWindowPos, ShowWindow, WINDOW_EX_STYLE, WINDOW_STYLE,
     WM_CTLCOLORBTN, WM_CTLCOLOREDIT, WM_CTLCOLORLISTBOX, WM_CTLCOLORSTATIC, WM_SETFONT,
@@ -68,14 +68,27 @@ pub mod id {
     pub const SET_EXCLUDE_LEARNED: u16 = 18;
     pub const SET_INTERVAL_LABEL: u16 = 19;
     pub const SET_ORDER_LABEL: u16 = 20;
-    pub const SET_COLLECTION_LABEL: u16 = 21;
     pub const SET_THEME_LABEL: u16 = 22;
     pub const SET_FONT_LABEL: u16 = 23;
     pub const SET_WIDTH_LABEL: u16 = 24;
     pub const SET_HINT: u16 = 25;
-    pub const SET_INTERVAL_HINT: u16 = 26;
-    pub const SET_FONT_HINT: u16 = 27;
-    pub const SET_WIDTH_HINT: u16 = 28;
+    pub const SET_HIDE_FULLSCREEN: u16 = 29;
+    pub const SET_CONTENT_IMPORT: u16 = 30;
+    pub const SET_CONTENT_MANAGE: u16 = 31;
+    pub const SET_CONTENT_HINT: u16 = 32;
+    pub const SET_CUSTOM_INTERVAL: u16 = 33;
+    pub const SET_PRESENTATION: u16 = 34;
+    pub const SET_COLOR_BACKGROUND: u16 = 35;
+    pub const SET_COLOR_TEXT: u16 = 36;
+    pub const SET_COLOR_SECONDARY: u16 = 37;
+    pub const SET_MONITOR: u16 = 38;
+    pub const SET_MARGIN: u16 = 39;
+    pub const SET_POSITION_HINT: u16 = 55;
+    pub const SET_CONTRAST: u16 = 56;
+    pub const START_LEARNING: u16 = 57;
+    pub const RESTORE_DEFAULTS: u16 = 58;
+    pub const SET_PAUSE: u16 = 59;
+    pub const SET_PRESENTATION_LABEL: u16 = 60;
 
     // Collections manager
     pub const COL_LIST: u16 = 40;
@@ -93,7 +106,6 @@ pub mod id {
     pub const ENTRY_EXPORT_JSON: u16 = 52;
     pub const ENTRY_HEADING: u16 = 53;
     pub const ENTRY_SUMMARY: u16 = 54;
-    pub const COL_ACTIVE_LABEL: u16 = 55;
 
     // Entry editor
     pub const FIELD_WORD: u16 = 70;
@@ -109,7 +121,6 @@ pub mod id {
     pub const FIELD_SOURCE_LABEL: u16 = 80;
     pub const FIELD_SOURCE_LANG_LABEL: u16 = 81;
     pub const FIELD_TARGET_LANG_LABEL: u16 = 82;
-    pub const FIELD_HINT: u16 = 83;
 
     // Prompt (new/rename collection)
     pub const PROMPT_VALUE: u16 = 90;
@@ -123,9 +134,15 @@ pub mod id {
     pub const IMPORT_SKIP_DUPES: u16 = 104;
 
     // Details
-    pub const DETAIL_BODY: u16 = 110;
-    pub const DETAIL_META: u16 = 111;
     pub const DETAIL_TOGGLE: u16 = 112;
+    pub const POSITION_0: u16 = 140;
+    pub const POSITION_1: u16 = 141;
+    pub const POSITION_2: u16 = 142;
+    pub const POSITION_3: u16 = 143;
+    pub const POSITION_4: u16 = 144;
+    pub const POSITION_5: u16 = 145;
+    pub const POSITION_6: u16 = 146;
+    pub const POSITION_7: u16 = 147;
 }
 
 /// Paints the window background with the palette brush.
@@ -210,10 +227,10 @@ impl Chrome {
         // SAFETY: BeginPaint/EndPaint bracket the drawing of an existing window.
         unsafe {
             let hdc = BeginPaint(hwnd, &mut paint);
-            if self.dark {
-                if let Some(brush) = &self.bg_brush {
-                    FillRect(hdc, &paint.rcPaint, brush.raw());
-                }
+            if self.dark
+                && let Some(brush) = &self.bg_brush
+            {
+                FillRect(hdc, &paint.rcPaint, brush.raw());
             }
             let _ = EndPaint(hwnd, &paint);
         }
@@ -249,6 +266,7 @@ impl Chrome {
 }
 
 /// Creates a child control with a DIP rectangle and the shared UI font.
+#[allow(clippy::too_many_arguments)] // mirrors the Win32 CreateWindowExW control parameters
 pub fn create_child(
     parent: HWND,
     class: &str,
@@ -331,15 +349,6 @@ pub fn list_reset(list: HWND) {
     win::send_message(list, LB_RESETCONTENT, WPARAM(0), LPARAM(0));
 }
 
-pub fn list_reserve(list: HWND, count: usize) {
-    win::send_message(
-        list,
-        LB_INITSTORAGE,
-        WPARAM(count),
-        LPARAM(count.saturating_mul(40) as isize),
-    );
-}
-
 pub fn list_add(list: HWND, text: &str) {
     let text = win::wide(text);
     // SAFETY: LB_ADDSTRING copies the string into the list box.
@@ -371,6 +380,38 @@ pub fn list_selection(list: HWND) -> Option<usize> {
 pub fn list_select(list: HWND, index: Option<usize>) {
     let index = index.map(|i| i as isize).unwrap_or(-1);
     win::send_message(list, LB_SETCURSEL, WPARAM(index as usize), LPARAM(0));
+}
+
+pub fn list_selected_indices(list: HWND) -> Vec<usize> {
+    let count = win::send_message(list, LB_GETSELCOUNT, WPARAM(0), LPARAM(0)).0;
+    if count <= 0 {
+        return Vec::new();
+    }
+    let mut indices = vec![0i32; count as usize];
+    let copied = unsafe {
+        SendMessageW(
+            list,
+            LB_GETSELITEMS,
+            Some(WPARAM(indices.len())),
+            Some(LPARAM(indices.as_mut_ptr() as isize)),
+        )
+        .0
+    };
+    if copied <= 0 {
+        return Vec::new();
+    }
+    indices
+        .into_iter()
+        .take(copied as usize)
+        .map(|index| index as usize)
+        .collect()
+}
+
+pub fn list_set_multi_selection(list: HWND, indices: &[usize]) {
+    win::send_message(list, LB_SETSEL, WPARAM(0), LPARAM(-1));
+    for index in indices {
+        win::send_message(list, LB_SETSEL, WPARAM(1), LPARAM(*index as isize));
+    }
 }
 
 pub fn combo_reset(combo: HWND) {
@@ -409,19 +450,9 @@ pub fn combo_select(combo: HWND, index: Option<usize>) {
     win::send_message(combo, CB_SETCURSEL, WPARAM(index as usize), LPARAM(0));
 }
 
-pub fn checkbox_checked(parent: HWND, id: u16) -> bool {
-    win::child(parent, id)
-        .map(|hwnd| win::send_message(hwnd, BM_GETCHECK, WPARAM(0), LPARAM(0)).0 == 1)
-        .unwrap_or(false)
-}
-
 /// Extracts the control id from a `WM_COMMAND` wparam.
 pub fn command_id(wparam: WPARAM) -> u16 {
     (wparam.0 & 0xFFFF) as u16
-}
-
-pub fn command_notification(wparam: WPARAM) -> u16 {
-    ((wparam.0 >> 16) & 0xFFFF) as u16
 }
 
 /// Client size of a dialog window for a DIP size (frame included).
@@ -445,8 +476,6 @@ pub const DIALOG_EX_STYLE: u32 = WS_EX_CONTROLPARENT.0;
 /// Push-button and edit styles that `windows` does not export as named
 /// constants (they are zero in `winuser.h`).
 pub const BS_PUSHBUTTON: u32 = 0;
-/// `EM_SETSEL` (not exported by `windows` 0.62).
-pub const EM_SETSEL: u32 = 0x00B1;
 
 /// System-colour brushes used as window-class backgrounds.
 pub const SYS_BTNFACE: HBRUSH =
@@ -476,6 +505,7 @@ pub const STYLE_LISTBOX: u32 = WS_CHILD.0
     | WS_VSCROLL.0
     | LBS_NOTIFY as u32
     | LBS_NOINTEGRALHEIGHT as u32;
+pub const STYLE_LISTBOX_MULTI: u32 = STYLE_LISTBOX | LBS_MULTIPLESEL as u32;
 pub const STYLE_COMBO: u32 =
     WS_CHILD.0 | WS_VISIBLE.0 | WS_TABSTOP.0 | WS_VSCROLL.0 | CBS_DROPDOWNLIST as u32;
 
@@ -523,12 +553,16 @@ pub fn create_dialog_window(
     state: *mut c_void,
 ) -> Option<HWND> {
     let dpi = win::dpi_of_window(reference).max(96);
-    let (width, height) = frame_size(client_size, dpi);
+    let (mut width, mut height) = frame_size(client_size, dpi);
     let work = win::monitor_for_window(reference)
         .map(|monitor| monitor.work)
         .unwrap_or_else(win::primary_work_area);
-    let x = work.left + ((work.right - work.left - width) / 2).max(0);
-    let y = work.top + ((work.bottom - work.top - height) / 2).max(0);
+    let work_width = work.right - work.left;
+    let work_height = work.bottom - work.top;
+    width = width.min(work_width).max(1);
+    height = height.min(work_height).max(1);
+    let x = (work.left + (work_width - width) / 2).clamp(work.left, work.right - width);
+    let y = (work.top + (work_height - height) / 2).clamp(work.top, work.bottom - height);
 
     let class = win::wide(class);
     let title = win::wide(title);
@@ -628,15 +662,4 @@ pub fn set_edit_text(parent: HWND, id: u16, text: &str) {
 /// Replaces a multiline edit's content (used by the details window).
 pub fn set_multiline_text(parent: HWND, id: u16, text: &str) {
     static_text(parent, id, text);
-}
-
-/// Selects the whole content of an edit control.
-pub fn edit_select_all(parent: HWND, id: u16) {
-    if let Some(hwnd) = win::child(parent, id) {
-        win::send_message(hwnd, EM_SETSEL, WPARAM(0), LPARAM(-1));
-    }
-}
-
-pub fn list_delete(list: HWND, index: usize) {
-    win::send_message(list, LB_DELETESTRING, WPARAM(index), LPARAM(0));
 }

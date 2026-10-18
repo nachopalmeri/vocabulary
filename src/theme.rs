@@ -62,6 +62,7 @@ pub fn is_dark(mode: ThemeMode) -> bool {
     match mode {
         ThemeMode::Light => false,
         ThemeMode::Dark => true,
+        ThemeMode::Custom => false,
         ThemeMode::System => system_prefers_dark(),
     }
 }
@@ -76,6 +77,48 @@ pub fn system_prefers_dark() -> bool {
 
 pub fn palette(mode: ThemeMode) -> Palette {
     if is_dark(mode) { DARK } else { LIGHT }
+}
+
+pub fn palette_for_config(config: &crate::model::Config) -> Palette {
+    if config.theme != ThemeMode::Custom {
+        return palette(config.theme);
+    }
+    let bg = config.custom_background;
+    let text = config.custom_text;
+    let secondary = config.custom_secondary;
+    let dark = relative_luminance(bg) < 0.5;
+    let mut p = if dark { DARK } else { LIGHT };
+    p.dark = dark;
+    p.bg = COLORREF(bg);
+    p.border = COLORREF(bg);
+    p.word = COLORREF(text);
+    p.text = COLORREF(text);
+    p.muted = COLORREF(secondary);
+    p.dialog_bg = COLORREF(bg);
+    p.field_bg = COLORREF(if dark { 0x2B2D31 } else { 0xFFFFFF });
+    p.field_text = COLORREF(text);
+    p
+}
+
+pub fn contrast_ratio(a: u32, b: u32) -> f64 {
+    let la = relative_luminance(a);
+    let lb = relative_luminance(b);
+    let (hi, lo) = if la >= lb { (la, lb) } else { (lb, la) };
+    (hi + 0.05) / (lo + 0.05)
+}
+
+fn relative_luminance(color: u32) -> f64 {
+    let r = (color & 0xff) as f64 / 255.0;
+    let g = ((color >> 8) & 0xff) as f64 / 255.0;
+    let b = ((color >> 16) & 0xff) as f64 / 255.0;
+    fn channel(c: f64) -> f64 {
+        if c <= 0.03928 {
+            c / 12.92
+        } else {
+            ((c + 0.055) / 1.055).powf(2.4)
+        }
+    }
+    0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b)
 }
 
 #[cfg(test)]

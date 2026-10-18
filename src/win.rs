@@ -24,8 +24,9 @@ use windows::Win32::Graphics::Gdi::{
 };
 use windows::Win32::System::LibraryLoader::{GetModuleFileNameW, GetModuleHandleW};
 use windows::Win32::UI::Controls::Dialogs::{
-    GetOpenFileNameW, GetSaveFileNameW, OFN_EXPLORER, OFN_FILEMUSTEXIST, OFN_NOCHANGEDIR,
-    OFN_OVERWRITEPROMPT, OFN_PATHMUSTEXIST, OPENFILENAMEW,
+    CC_FULLOPEN, CC_RGBINIT, CHOOSECOLORW, ChooseColorW, GetOpenFileNameW, GetSaveFileNameW,
+    OFN_EXPLORER, OFN_FILEMUSTEXIST, OFN_NOCHANGEDIR, OFN_OVERWRITEPROMPT, OFN_PATHMUSTEXIST,
+    OPENFILENAMEW,
 };
 use windows::Win32::UI::HiDpi::{AdjustWindowRectExForDpi, GetDpiForSystem, GetDpiForWindow};
 use windows::Win32::UI::WindowsAndMessaging::{
@@ -460,6 +461,43 @@ pub fn monitor_by_device(name: &str) -> Option<MonitorInfo> {
         );
     }
     search.found
+}
+
+/// Enumerates every attached monitor.
+pub fn all_monitors() -> Vec<MonitorInfo> {
+    #[derive(Default)]
+    struct Collect {
+        items: Vec<MonitorInfo>,
+    }
+    unsafe extern "system" fn callback(
+        monitor: HMONITOR,
+        _dc: HDC,
+        _rect: *mut RECT,
+        data: LPARAM,
+    ) -> WinBool {
+        let collect = unsafe { &mut *(data.0 as *mut Collect) };
+        let mut info = MONITORINFOEXW::default();
+        info.monitorInfo.cbSize = std::mem::size_of::<MONITORINFOEXW>() as u32;
+        if unsafe { GetMonitorInfoW(monitor, &mut info.monitorInfo as *mut MONITORINFO) }.as_bool()
+        {
+            collect.items.push(MonitorInfo {
+                device: from_wide(&info.szDevice),
+                work: info.monitorInfo.rcWork,
+                bounds: info.monitorInfo.rcMonitor,
+            });
+        }
+        WinBool(1)
+    }
+    let mut collect = Collect::default();
+    unsafe {
+        let _ = EnumDisplayMonitors(
+            None,
+            None,
+            Some(callback),
+            LPARAM(&mut collect as *mut Collect as isize),
+        );
+    }
+    collect.items
 }
 
 /// Work area of the primary monitor.
@@ -930,6 +968,20 @@ pub mod registry {
 // ---------------------------------------------------------------------------
 
 /// Full path of the running executable.
+pub fn pick_color(owner: HWND, initial: u32) -> Option<u32> {
+    let mut custom = [COLORREF(0); 16];
+    let mut cc = CHOOSECOLORW {
+        lStructSize: std::mem::size_of::<CHOOSECOLORW>() as u32,
+        hwndOwner: owner,
+        rgbResult: COLORREF(initial),
+        lpCustColors: custom.as_mut_ptr(),
+        Flags: CC_RGBINIT | CC_FULLOPEN,
+        ..Default::default()
+    };
+    let ok = unsafe { ChooseColorW(&mut cc).as_bool() };
+    if ok { Some(cc.rgbResult.0) } else { None }
+}
+
 pub fn exe_path() -> Option<PathBuf> {
     let mut buffer = [0u16; 1024];
     // SAFETY: the buffer is writable and GetModuleFileNameW NUL-terminates.

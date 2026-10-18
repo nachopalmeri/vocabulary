@@ -219,14 +219,13 @@ fn read_json<T: DeserializeOwned>(path: &Path) -> Result<Option<T>, Problem> {
     }
     // Check the declared schema version before handing the bytes to the typed
     // deserializer: a file from a newer build must never be rewritten.
-    if let Ok(document) = serde_json::from_slice::<serde_json::Value>(&bytes) {
-        if let Some(version) = document.get("schema_version").and_then(|v| v.as_u64()) {
-            if version as u32 > SCHEMA_VERSION {
-                return Err(Problem::Newer {
-                    version: version as u32,
-                });
-            }
-        }
+    if let Ok(document) = serde_json::from_slice::<serde_json::Value>(&bytes)
+        && let Some(version) = document.get("schema_version").and_then(|v| v.as_u64())
+        && version as u32 > SCHEMA_VERSION
+    {
+        return Err(Problem::Newer {
+            version: version as u32,
+        });
     }
     let value: T = serde_json::from_slice(&bytes).map_err(|error| Problem::Malformed {
         message: format!("invalid JSON ({error})"),

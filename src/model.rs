@@ -24,7 +24,7 @@ pub const DEFAULT_FONT_SIZE_PT: u32 = 18;
 
 pub const MIN_CARD_WIDTH_DIP: i32 = 220;
 pub const MAX_CARD_WIDTH_DIP: i32 = 800;
-pub const DEFAULT_CARD_WIDTH_DIP: i32 = 300;
+pub const DEFAULT_CARD_WIDTH_DIP: i32 = 260;
 
 /// Font family used for the card and for the dialogs.
 pub const UI_FONT_FAMILY: &str = "Segoe UI";
@@ -32,22 +32,18 @@ pub const UI_FONT_FAMILY: &str = "Segoe UI";
 /// Rotation order for the card.
 #[derive(Serialize, Deserialize, Clone, Copy, Debug, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
+#[derive(Default)]
 pub enum Order {
+    #[default]
     Sequential,
     Shuffled,
-}
-
-impl Default for Order {
-    fn default() -> Self {
-        Order::Sequential
-    }
 }
 
 impl Order {
     pub fn label(self) -> &'static str {
         match self {
-            Order::Sequential => "Sequential",
-            Order::Shuffled => "Shuffled (no repeat per cycle)",
+            Order::Sequential => "En orden",
+            Order::Shuffled => "Aleatorio",
         }
     }
 }
@@ -55,25 +51,78 @@ impl Order {
 /// Card theme selection. `System` follows the Windows "app mode" setting.
 #[derive(Serialize, Deserialize, Clone, Copy, Debug, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
+#[derive(Default)]
 pub enum ThemeMode {
+    #[default]
     System,
     Light,
     Dark,
-}
-
-impl Default for ThemeMode {
-    fn default() -> Self {
-        ThemeMode::System
-    }
+    Custom,
 }
 
 impl ThemeMode {
     pub fn label(self) -> &'static str {
         match self {
-            ThemeMode::System => "System",
-            ThemeMode::Light => "Light",
-            ThemeMode::Dark => "Dark",
+            ThemeMode::System => "Sistema",
+            ThemeMode::Light => "Claro",
+            ThemeMode::Dark => "Oscuro",
+            ThemeMode::Custom => "Personalizado",
         }
+    }
+}
+
+/// How much content the card shows at once.
+#[derive(Serialize, Deserialize, Clone, Copy, Debug, PartialEq, Eq)]
+#[serde(rename_all = "lowercase")]
+#[derive(Default)]
+pub enum PresentationMode {
+    #[default]
+    Basic,
+    MeaningOnHover,
+    WithExample,
+}
+
+impl PresentationMode {
+    pub fn label(self) -> &'static str {
+        match self {
+            PresentationMode::Basic => "Palabra y significado",
+            PresentationMode::MeaningOnHover => "Palabra",
+            PresentationMode::WithExample => "Con ejemplo",
+        }
+    }
+}
+
+/// Where the card is anchored on its monitor.
+#[derive(Serialize, Deserialize, Clone, Copy, Debug, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+#[derive(Default)]
+pub enum CardAnchor {
+    TopLeft,
+    TopCenter,
+    TopRight,
+    CenterLeft,
+    CenterRight,
+    BottomLeft,
+    BottomCenter,
+    #[default]
+    BottomRight,
+    Custom,
+}
+
+impl CardAnchor {
+    pub const GRID: [CardAnchor; 8] = [
+        CardAnchor::TopLeft,
+        CardAnchor::TopCenter,
+        CardAnchor::TopRight,
+        CardAnchor::CenterLeft,
+        CardAnchor::CenterRight,
+        CardAnchor::BottomLeft,
+        CardAnchor::BottomCenter,
+        CardAnchor::BottomRight,
+    ];
+
+    pub fn grid_index(self) -> Option<usize> {
+        Self::GRID.iter().position(|a| *a == self)
     }
 }
 
@@ -274,6 +323,16 @@ pub struct Config {
     pub card_visible: bool,
     pub paused: bool,
     pub position: Option<CardPosition>,
+    pub selected_collections: Vec<String>,
+    pub selection_initialized: bool,
+    pub presentation: PresentationMode,
+    pub custom_background: u32,
+    pub custom_text: u32,
+    pub custom_secondary: u32,
+    pub position_monitor: String,
+    pub position_anchor: CardAnchor,
+    pub margin_dip: i32,
+    pub hide_during_fullscreen: bool,
 }
 
 impl Default for Config {
@@ -291,6 +350,16 @@ impl Default for Config {
             card_visible: true,
             paused: false,
             position: None,
+            selected_collections: Vec::new(),
+            selection_initialized: false,
+            presentation: PresentationMode::default(),
+            custom_background: 0x1E1E1E,
+            custom_text: 0xF2F2F2,
+            custom_secondary: 0x9AA0A6,
+            position_monitor: String::new(),
+            position_anchor: CardAnchor::default(),
+            margin_dip: 12,
+            hide_during_fullscreen: true,
         }
     }
 }
@@ -306,6 +375,7 @@ impl Config {
         self.card_width_dip = self
             .card_width_dip
             .clamp(MIN_CARD_WIDTH_DIP, MAX_CARD_WIDTH_DIP);
+        self.margin_dip = self.margin_dip.clamp(0, 200);
         self.schema_version = SCHEMA_VERSION;
         if let Some(pos) = &mut self.position {
             // Guard against absurd values that would place the card off-world.

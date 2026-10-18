@@ -6,7 +6,7 @@
 //! asked to keep them), which keeps the engine free of policy decisions and
 //! easy to test.
 
-use crate::model::{Entry, Order, Rng};
+use crate::model::{Collection, Config, Entry, Order, Rng};
 
 /// How many previously shown entries are remembered for the "previous" action.
 const HISTORY_LIMIT: usize = 64;
@@ -117,12 +117,12 @@ impl Rotation {
         };
 
         if let Some(id) = &next {
-            if let Some(current) = self.last.take() {
-                if current != *id {
-                    self.history.push(current);
-                    if self.history.len() > HISTORY_LIMIT {
-                        self.history.remove(0);
-                    }
+            if let Some(current) = self.last.take()
+                && current != *id
+            {
+                self.history.push(current);
+                if self.history.len() > HISTORY_LIMIT {
+                    self.history.remove(0);
                 }
             }
             self.last = Some(id.clone());
@@ -167,6 +167,27 @@ pub fn eligible_ids(entries: &[Entry], exclude_learned: bool) -> Vec<String> {
         .filter(|e| !exclude_learned || !e.learned)
         .map(|e| e.id.clone())
         .collect()
+}
+
+/// Ids that may be shown across the selected collections. Each id is prefixed
+/// with its collection id so entries from different collections never collide.
+pub fn eligible_ids_in_collections(library: &crate::model::Library, config: &Config) -> Vec<String> {
+    let mut result = Vec::new();
+    let collections: Vec<&Collection> = if config.selected_collections.is_empty() {
+        library.collections.iter().collect()
+    } else {
+        config
+            .selected_collections
+            .iter()
+            .filter_map(|id| library.collection(id))
+            .collect()
+    };
+    for collection in collections {
+        for id in eligible_ids(&collection.entries, config.exclude_learned) {
+            result.push(format!("{}::{}", collection.id, id));
+        }
+    }
+    result
 }
 
 #[cfg(test)]
@@ -293,7 +314,7 @@ mod tests {
         rotation.set_current(Some("e1".into()));
         rotation.retain_current(&ids(3));
         assert_eq!(rotation.current(), Some("e1"));
-        rotation.retain_current(&vec!["e0".to_string()]);
+        rotation.retain_current(&["e0".to_string()]);
         assert_eq!(rotation.current(), None);
         let _ = &mut rng;
     }
