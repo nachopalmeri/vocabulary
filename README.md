@@ -36,6 +36,8 @@ The portable release executable is `target\release\worddock.exe`; no installer i
 
 Sample import files: [`samples/sample_vocabulary.csv`](samples/sample_vocabulary.csv) and [`samples/sample_vocabulary.json`](samples/sample_vocabulary.json).
 
+Optional vocabulary collections extracted from public Wikipedia glossaries are in [`vocabularies/`](vocabularies/) (ComputerScience, ArtificialIntelligence, Philosophy). Import them through Manage collections.
+
 ## Idle measurement
 
 1. Build and start `target\release\worddock.exe`; leave the card visible and do not interact with it.
