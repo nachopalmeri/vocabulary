@@ -25,6 +25,7 @@ pub const CMD_REVIEW_AGAIN: usize = 6;
 pub const CMD_SETTINGS: usize = 7;
 pub const CMD_COLLECTIONS: usize = 8;
 pub const CMD_EXIT: usize = 9;
+pub const CMD_CLOTHESLINE: usize = 10;
 
 /// What the tray asked the application to do.
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
@@ -37,6 +38,7 @@ pub enum TrayCommand {
     ReviewAgain,
     Settings,
     Collections,
+    Clothesline,
     Exit,
 }
 
@@ -166,6 +168,8 @@ pub fn show_menu(
         add("Settings…", CMD_SETTINGS);
         add("Manage collections…", CMD_COLLECTIONS);
         separator();
+        add("Clothesline (clipboard history)", CMD_CLOTHESLINE);
+        separator();
         add("Exit", CMD_EXIT);
 
         let mut point = POINT::default();
@@ -192,6 +196,7 @@ pub fn show_menu(
             CMD_REVIEW_AGAIN => Some(TrayCommand::ReviewAgain),
             CMD_SETTINGS => Some(TrayCommand::Settings),
             CMD_COLLECTIONS => Some(TrayCommand::Collections),
+            CMD_CLOTHESLINE => Some(TrayCommand::Clothesline),
             CMD_EXIT => Some(TrayCommand::Exit),
             _ => None,
         }

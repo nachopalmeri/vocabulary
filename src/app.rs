@@ -55,6 +55,7 @@ pub enum Action {
     Details,
     Settings,
     Collections,
+    Clothesline,
     Exit,
 }
 
@@ -90,6 +91,8 @@ pub struct App {
     pub collections_hwnd: Option<HWND>,
     pub details_hwnd: Option<HWND>,
     pub import_hwnd: Option<HWND>,
+    pub clothesline_hwnd: Option<HWND>,
+    pub clothesline_items: Vec<String>,
     pub pending_import: Option<ImportReport>,
     pub pending_import_target: Option<String>,
     pub notice: Option<(String, bool)>,
@@ -139,6 +142,8 @@ impl App {
             collections_hwnd: None,
             details_hwnd: None,
             import_hwnd: None,
+            clothesline_hwnd: None,
+            clothesline_items: Vec::new(),
             pending_import: None,
             pending_import_target: None,
             notice: None,
@@ -528,6 +533,12 @@ impl App {
         crate::ui::card::apply_placement(self);
     }
 
+    pub fn on_clipboard_update(&mut self) {
+        if let Some(text) = win::clipboard_text() {
+            crate::clothesline::push_item(self, text);
+        }
+    }
+
     pub fn on_theme_change(&mut self) {
         if self.config.theme == ThemeMode::System {
             self.refresh_card();
@@ -844,6 +855,10 @@ impl App {
         crate::ui::collections::open(self);
     }
 
+    pub fn open_clothesline(&mut self) {
+        crate::clothesline::open(self);
+    }
+
     pub fn open_details(&mut self) {
         crate::ui::details::open(self);
     }
@@ -872,6 +887,7 @@ impl App {
             Action::Details => self.open_details(),
             Action::Settings => self.open_settings(),
             Action::Collections => self.open_collections(),
+            Action::Clothesline => self.open_clothesline(),
             Action::Exit => self.quit(),
         }
     }
@@ -975,6 +991,7 @@ pub extern "system" fn controller_proc(
                             crate::tray::TrayCommand::ReviewAgain => Action::ReviewAgain,
                             crate::tray::TrayCommand::Settings => Action::Settings,
                             crate::tray::TrayCommand::Collections => Action::Collections,
+                            crate::tray::TrayCommand::Clothesline => Action::Clothesline,
                             crate::tray::TrayCommand::Exit => Action::Exit,
                         };
                         app.handle(action);
@@ -1050,6 +1067,12 @@ pub extern "system" fn controller_proc(
         WM_DPICHANGED => {
             if !app_ptr.is_null() {
                 crate::ui::card::on_dpi_changed(unsafe { &mut *app_ptr }, wparam, lparam);
+            }
+            LRESULT(0)
+        }
+        0x031D => { // WM_CLIPBOARDUPDATE
+            if !app_ptr.is_null() {
+                unsafe { &mut *app_ptr }.on_clipboard_update();
             }
             LRESULT(0)
         }

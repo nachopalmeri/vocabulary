@@ -14,6 +14,7 @@
 )]
 
 mod app;
+mod clothesline;
 mod csvio;
 mod model;
 mod rotation;
@@ -91,6 +92,7 @@ fn run() -> Result<(), String> {
         ui::collections::prompt_class(),
         ui::details::class(),
         ui::import::class(),
+        crate::clothesline::class(),
     ] {
         if !ui::register_class(&spec, instance) {
             unsafe {
@@ -144,6 +146,7 @@ fn run() -> Result<(), String> {
         }
         return Ok(());
     }
+    let _ = win::add_clipboard_listener(controller);
     let _ = ui::card::create(&mut app, instance);
     let _ = app
         .tray
