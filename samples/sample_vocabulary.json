@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {"word":"adroit","meaning":"Hábil, diestro (especialmente para manejar situaciones).","example":"She was adroit at steering the meeting away from a pointless argument.","source":"WordDock sample","source_language":"English","target_language":"Spanish","learned":false},
+    {"word":"hindsight","meaning":"Retrospectiva: entender algo solo después de que ocurrió.","example":"In hindsight, waiting one more week would have been cheaper.","source":"WordDock sample","source_language":"English","target_language":"Spanish","learned":false},
+    {"word":"hindsight bias","meaning":"Sesgo retrospectivo: creer que ya se sabía lo que iba a pasar.","example":"The hindsight bias makes old forecasts look more obvious than they were.","source":"WordDock sample","source_language":"English","target_language":"Spanish","learned":false},
+    {"word":"to weigh options","meaning":"Sopesar opciones, comparar alternativas antes de decidir.","example":"We weighed our options for a week before signing anything.","source":"WordDock sample","source_language":"English","target_language":"Spanish","learned":false},
+    {"word":"trade-off","meaning":"Compensación: ceder algo para ganar otra cosa.","example":"Working shorter hours is a trade-off between income and free time.","source":"WordDock sample","source_language":"English","target_language":"Spanish","learned":false},
+    {"word":"deliberate","meaning":"Deliberado, intencional; también deliberar (pensar con cuidado).","example":"The decision was slow but deliberate.","source":"WordDock sample","source_language":"English","target_language":"Spanish","learned":false},
+    {"word":"to stall","meaning":"Dar largas, postergar una decisión.","example":"He stalled until the deadline solved the problem for him.","source":"WordDock sample","source_language":"English","target_language":"Spanish","learned":false},
+    {"word":"premature","meaning":"Prematuro: hecho antes del momento adecuado.","example":"Closing the file this early feels premature.","source":"WordDock sample","source_language":"English","target_language":"Spanish","learned":false},
+    {"word":"compelling","meaning":"Convincente, atractivo (un argumento, una idea).","example":"Her summary was short and compelling.","source":"WordDock sample","source_language":"English","target_language":"Spanish","learned":false},
+    {"word":"negligible","meaning":"Insignificante: tan pequeño que no cambia el resultado.","example":"The difference between the two estimates was negligible.","source":"WordDock sample","source_language":"English","target_language":"Spanish","learned":false},
+    {"word":"outlier","meaning":"Valor atípico: un dato muy alejado del resto.","example":"One outlier pulled the average up.","source":"WordDock sample","source_language":"English","target_language":"Spanish","learned":false},
+    {"word":"to skew","meaning":"Sesgar, distorsionar un resultado.","example":"A small sample can skew the whole comparison.","source":"WordDock sample","source_language":"English","target_language":"Spanish","learned":false},
+    {"word":"sample size","meaning":"Tamaño de la muestra: cantidad de casos observados.","example":"With such a small sample size, the ranking means little.","source":"WordDock sample","source_language":"English","target_language":"Spanish","learned":false},
+    {"word":"threshold","meaning":"Umbral: límite a partir del cual algo cambia.","example":"Sales crossed the threshold we had set for the quarter.","source":"WordDock sample","source_language":"English","target_language":"Spanish","learned":false},
+    {"word":"to nudge","meaning":"Empujar suavemente; influir de forma sutil.","example":"A plain reminder nudged people to finish the survey.","source":"WordDock sample","source_language":"English","target_language":"Spanish","learned":false},
+    {"word":"gut feeling","meaning":"Corazonada, intuición visceral.","example":"My gut feeling said the numbers were too neat.","source":"WordDock sample","source_language":"English","target_language":"Spanish","learned":false},
+    {"word":"to second-guess","meaning":"Cuestionar una decisión ya tomada, revisarla de más.","example":"Stop second-guessing every choice you make.","source":"WordDock sample","source_language":"English","target_language":"Spanish","learned":false},
+    {"word":"incidental","meaning":"Accidental, secundario: no es lo principal.","example":"The extra cost was incidental to the plan.","source":"WordDock sample","source_language":"English","target_language":"Spanish","learned":false},
+    {"word":"to keep track of","meaning":"Llevar registro de algo, no perderle la pista.","example":"I keep track of new words in a single notebook.","source":"WordDock sample","source_language":"English","target_language":"Spanish","learned":false},
+    {"word":"to put off","meaning":"Aplazar, dejar algo para después.","example":"Reading one card at a time is easier than putting it off entirely.","source":"WordDock sample","source_language":"English","target_language":"Spanish","learned":false}
+  ]
+}
