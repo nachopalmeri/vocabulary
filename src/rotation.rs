@@ -171,7 +171,10 @@ pub fn eligible_ids(entries: &[Entry], exclude_learned: bool) -> Vec<String> {
 
 /// Ids that may be shown across the selected collections. Each id is prefixed
 /// with its collection id so entries from different collections never collide.
-pub fn eligible_ids_in_collections(library: &crate::model::Library, config: &Config) -> Vec<String> {
+pub fn eligible_ids_in_collections(
+    library: &crate::model::Library,
+    config: &Config,
+) -> Vec<String> {
     let mut result = Vec::new();
     let collections: Vec<&Collection> = if config.selected_collections.is_empty() {
         library.collections.iter().collect()

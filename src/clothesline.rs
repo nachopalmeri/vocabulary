@@ -12,8 +12,8 @@ use crate::win;
 use windows::Win32::Foundation::{HWND, LPARAM, LRESULT, WPARAM};
 use windows::Win32::UI::WindowsAndMessaging::{
     CREATESTRUCTW, DefWindowProcW, DestroyWindow, GWLP_USERDATA, GetWindowLongPtrW,
-    SetWindowLongPtrW, WM_CLOSE, WM_COMMAND, WM_CREATE, WM_CTLCOLORSTATIC, WM_NCCREATE, WM_NCDESTROY,
-    WS_CHILD, WS_VISIBLE,
+    SetWindowLongPtrW, WM_CLOSE, WM_COMMAND, WM_CREATE, WM_CTLCOLORSTATIC, WM_NCCREATE,
+    WM_NCDESTROY, WS_CHILD, WS_VISIBLE,
 };
 
 pub const CLASS: &str = "WordDockClothesline";
@@ -129,9 +129,7 @@ fn populate(hwnd: HWND, state: &State) {
 
 pub extern "system" fn proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam: LPARAM) -> LRESULT {
     if msg == windows::Win32::UI::WindowsAndMessaging::WM_NCCREATE {
-        let p = unsafe {
-            (*(lparam.0 as *const CREATESTRUCTW)).lpCreateParams as *mut State
-        };
+        let p = unsafe { (*(lparam.0 as *const CREATESTRUCTW)).lpCreateParams as *mut State };
         if !p.is_null() {
             unsafe {
                 SetWindowLongPtrW(hwnd, GWLP_USERDATA, p as isize);

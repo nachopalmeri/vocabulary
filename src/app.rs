@@ -366,20 +366,16 @@ impl App {
             None => {
                 // Nothing shown (for example every entry is learned): take the
                 // most recently learned entry back into rotation.
-                let candidate = self
-                    .config
-                    .selected_collections
-                    .iter()
-                    .find_map(|cid| {
-                        self.library.collection(cid).and_then(|collection| {
-                            collection
-                                .entries
-                                .iter()
-                                .rev()
-                                .find(|e| e.learned)
-                                .map(|e| format!("{}::{}", cid, e.id))
-                        })
-                    });
+                let candidate = self.config.selected_collections.iter().find_map(|cid| {
+                    self.library.collection(cid).and_then(|collection| {
+                        collection
+                            .entries
+                            .iter()
+                            .rev()
+                            .find(|e| e.learned)
+                            .map(|e| format!("{}::{}", cid, e.id))
+                    })
+                });
                 match candidate {
                     Some(id) => id,
                     None => return,
@@ -1070,7 +1066,8 @@ pub extern "system" fn controller_proc(
             }
             LRESULT(0)
         }
-        0x031D => { // WM_CLIPBOARDUPDATE
+        0x031D => {
+            // WM_CLIPBOARDUPDATE
             if !app_ptr.is_null() {
                 unsafe { &mut *app_ptr }.on_clipboard_update();
             }

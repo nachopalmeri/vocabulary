@@ -992,7 +992,9 @@ pub fn clipboard_text() -> Option<String> {
         }
         let handle = GetClipboardData(13).ok();
         let result = handle.and_then(|h| {
-            let ptr = windows::Win32::System::Memory::GlobalLock(windows::Win32::Foundation::HGLOBAL(h.0));
+            let ptr = windows::Win32::System::Memory::GlobalLock(
+                windows::Win32::Foundation::HGLOBAL(h.0),
+            );
             if ptr.is_null() {
                 None
             } else {
@@ -1003,7 +1005,9 @@ pub fn clipboard_text() -> Option<String> {
                 }
                 let slice = std::slice::from_raw_parts(p, len);
                 let os = std::ffi::OsString::from_wide(slice);
-                let _ = windows::Win32::System::Memory::GlobalUnlock(windows::Win32::Foundation::HGLOBAL(h.0));
+                let _ = windows::Win32::System::Memory::GlobalUnlock(
+                    windows::Win32::Foundation::HGLOBAL(h.0),
+                );
                 os.to_str().map(|s| s.to_string())
             }
         });
@@ -1014,7 +1018,9 @@ pub fn clipboard_text() -> Option<String> {
 
 pub fn set_clipboard_text(text: &str) -> bool {
     use windows::Win32::Foundation::HGLOBAL;
-    use windows::Win32::System::DataExchange::{CloseClipboard, EmptyClipboard, OpenClipboard, SetClipboardData};
+    use windows::Win32::System::DataExchange::{
+        CloseClipboard, EmptyClipboard, OpenClipboard, SetClipboardData,
+    };
     use windows::Win32::System::Memory::{GMEM_MOVEABLE, GlobalAlloc};
     unsafe {
         if OpenClipboard(None).is_err() {
@@ -1023,20 +1029,25 @@ pub fn set_clipboard_text(text: &str) -> bool {
         let _ = EmptyClipboard();
         let wide: Vec<u16> = text.encode_utf16().chain(std::iter::once(0)).collect();
         let bytes = wide.len() * 2;
-        let h = match windows::Win32::System::Memory::GlobalAlloc(windows::Win32::System::Memory::GMEM_MOVEABLE, bytes) {
+        let h = match windows::Win32::System::Memory::GlobalAlloc(
+            windows::Win32::System::Memory::GMEM_MOVEABLE,
+            bytes,
+        ) {
             Ok(h) => h,
             Err(_) => {
                 let _ = CloseClipboard();
                 return false;
             }
         };
-        let ptr = windows::Win32::System::Memory::GlobalLock(windows::Win32::Foundation::HGLOBAL(h.0));
+        let ptr =
+            windows::Win32::System::Memory::GlobalLock(windows::Win32::Foundation::HGLOBAL(h.0));
         if ptr.is_null() {
             let _ = CloseClipboard();
             return false;
         }
         std::ptr::copy_nonoverlapping(wide.as_ptr(), ptr as *mut u16, wide.len());
-        let _ = windows::Win32::System::Memory::GlobalUnlock(windows::Win32::Foundation::HGLOBAL(h.0));
+        let _ =
+            windows::Win32::System::Memory::GlobalUnlock(windows::Win32::Foundation::HGLOBAL(h.0));
         let ok = SetClipboardData(13, Some(windows::Win32::Foundation::HANDLE(h.0))).is_ok();
         let _ = CloseClipboard();
         ok
