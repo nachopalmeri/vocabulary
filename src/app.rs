@@ -127,6 +127,10 @@ impl App {
             .fatal
             .clone()
             .or_else(|| config_load.fatal.clone());
+        let clothesline_items = std::fs::read_to_string(paths.root.join("clothesline.json"))
+            .ok()
+            .and_then(|s| serde_json::from_str::<Vec<String>>(&s).ok())
+            .unwrap_or_default();
         let mut app = App {
             paths,
             config,
@@ -143,7 +147,7 @@ impl App {
             details_hwnd: None,
             import_hwnd: None,
             clothesline_hwnd: None,
-            clothesline_items: Vec::new(),
+            clothesline_items,
             pending_import: None,
             pending_import_target: None,
             notice: None,

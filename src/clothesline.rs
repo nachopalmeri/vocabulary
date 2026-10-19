@@ -39,6 +39,7 @@ pub fn class() -> ui::ClassSpec {
 }
 
 pub fn open(app: &mut App) {
+    save_items(app);
     if let Some(hwnd) = app.clothesline_hwnd {
         if win::is_window(hwnd) {
             unsafe {
@@ -99,6 +100,7 @@ pub fn close(app: &mut App) {
 }
 
 pub fn toggle(app: &mut App) {
+    save_items(app);
     if let Some(hwnd) = app.clothesline_hwnd {
         if win::is_window(hwnd) {
             unsafe {
@@ -116,6 +118,13 @@ pub fn toggle(app: &mut App) {
     open(app);
 }
 
+fn save_items(app: &App) {
+    let path = app.paths.root.join("clothesline.json");
+    if let Ok(json) = serde_json::to_string(&app.clothesline_items) {
+        let _ = std::fs::write(path, json);
+    }
+}
+
 pub fn push_item(app: &mut App, text: String) {
     let trimmed = text.trim().to_string();
     if trimmed.is_empty() {
@@ -126,6 +135,7 @@ pub fn push_item(app: &mut App, text: String) {
     if app.clothesline_items.len() > MAX_ITEMS {
         app.clothesline_items.truncate(MAX_ITEMS);
     }
+    save_items(app);
     if let Some(hwnd) = app.clothesline_hwnd {
         if win::is_window(hwnd) {
             let ptr = unsafe { GetWindowLongPtrW(hwnd, GWLP_USERDATA) as *mut State };
@@ -262,6 +272,31 @@ pub extern "system" fn proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam: LPARAM
         windows::Win32::UI::Controls::WM_MOUSELEAVE => {
             unsafe {
                 let _ = ShowWindow(hwnd, SW_HIDE);
+            }
+            LRESULT(0)
+        }
+        windows::Win32::UI::WindowsAndMessaging::WM_CONTEXTMENU => {
+            unsafe {
+                use windows::Win32::UI::WindowsAndMessaging::{
+                    AppendMenuW, CreatePopupMenu, DestroyMenu, GetCursorPos, MF_STRING,
+                    TrackPopupMenu, TPM_RETURNCMD, TPM_RIGHTBUTTON,
+                };
+                let menu = CreatePopupMenu().unwrap_or_default();
+                let text = win::wide("Clear history");
+                let _ = AppendMenuW(menu, MF_STRING, 1, win::pcw(&text));
+                let mut point = POINT::default();
+                let _ = GetCursorPos(&mut point);
+                let cmd = TrackPopupMenu(menu, TPM_RETURNCMD | TPM_RIGHTBUTTON, point.x, point.y, None, hwnd, None);
+                let _ = DestroyMenu(menu);
+                if cmd.0 == 1 {
+                    let st = &mut *pointer;
+                    st.items.clear();
+                    if let Some(app) = st.app.as_mut() {
+                        app.clothesline_items.clear();
+                        save_items(app);
+                    }
+                    refresh_buttons(hwnd);
+                }
             }
             LRESULT(0)
         }
