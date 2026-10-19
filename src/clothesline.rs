@@ -65,7 +65,7 @@ pub fn open(app: &mut App) {
             WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW,
             win::pcw(&win::wide(CLASS)),
             win::pcw(&win::wide("Clothesline")),
-            WS_POPUP | WS_VISIBLE,
+            WS_POPUP,
             x,
             y,
             width,
@@ -225,6 +225,18 @@ pub extern "system" fn proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam: LPARAM
             }
             LRESULT(0)
         }
+        windows::Win32::UI::WindowsAndMessaging::WM_MOUSEMOVE => {
+            let mut tme = windows::Win32::UI::Input::KeyboardAndMouse::TRACKMOUSEEVENT {
+                cbSize: std::mem::size_of::<windows::Win32::UI::Input::KeyboardAndMouse::TRACKMOUSEEVENT>() as u32,
+                dwFlags: windows::Win32::UI::Input::KeyboardAndMouse::TME_LEAVE,
+                hwndTrack: hwnd,
+                dwHoverTime: 0,
+            };
+            unsafe {
+                let _ = windows::Win32::UI::Input::KeyboardAndMouse::TrackMouseEvent(&mut tme);
+            }
+            LRESULT(0)
+        }
         windows::Win32::UI::WindowsAndMessaging::WM_PAINT => {
             let mut ps = windows::Win32::Graphics::Gdi::PAINTSTRUCT::default();
             unsafe {
@@ -244,6 +256,12 @@ pub extern "system" fn proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam: LPARAM
                 windows::Win32::Graphics::Gdi::SelectObject(dc, old);
                 let _ = windows::Win32::Graphics::Gdi::DeleteObject(windows::Win32::Graphics::Gdi::HGDIOBJ(pen.0));
                 let _ = windows::Win32::Graphics::Gdi::EndPaint(hwnd, &ps);
+            }
+            LRESULT(0)
+        }
+        windows::Win32::UI::Controls::WM_MOUSELEAVE => {
+            unsafe {
+                let _ = ShowWindow(hwnd, SW_HIDE);
             }
             LRESULT(0)
         }
