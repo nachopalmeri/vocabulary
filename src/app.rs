@@ -854,6 +854,9 @@ impl App {
     pub fn open_clothesline(&mut self) {
         crate::clothesline::open(self);
     }
+    pub fn toggle_clothesline(&mut self) {
+        crate::clothesline::toggle(self);
+    }
 
     pub fn open_details(&mut self) {
         crate::ui::details::open(self);
@@ -1032,6 +1035,17 @@ pub extern "system" fn controller_proc(
                     app.refresh_card();
                 } else {
                     app.show_card();
+                }
+            }
+            LRESULT(0)
+        }
+        windows::Win32::UI::WindowsAndMessaging::WM_HOTKEY => {
+            if !app_ptr.is_null() {
+                let app = unsafe { &mut *app_ptr };
+                match wparam.0 as i32 {
+                    1 => app.handle(Action::ToggleCard),
+                    2 => app.toggle_clothesline(),
+                    _ => {}
                 }
             }
             LRESULT(0)

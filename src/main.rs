@@ -146,6 +146,42 @@ fn run() -> Result<(), String> {
         }
         return Ok(());
     }
+    // Card controls hotkey (Ctrl+Shift+Space).
+    if unsafe {
+        windows::Win32::UI::Input::KeyboardAndMouse::RegisterHotKey(
+            Some(controller),
+            1,
+            windows::Win32::UI::Input::KeyboardAndMouse::MOD_CONTROL
+                | windows::Win32::UI::Input::KeyboardAndMouse::MOD_SHIFT
+                | windows::Win32::UI::Input::KeyboardAndMouse::MOD_NOREPEAT,
+            windows::Win32::UI::Input::KeyboardAndMouse::VK_SPACE.0 as u32,
+        )
+    }
+    .is_err()
+    {
+        app.queue_notice(
+            "Ctrl+Shift+Space is unavailable; move the pointer over the card to reveal its controls.",
+            false,
+        );
+    }
+
+    // Clothesline toggle hotkey (Home).
+    if unsafe {
+        windows::Win32::UI::Input::KeyboardAndMouse::RegisterHotKey(
+            Some(controller),
+            2,
+            windows::Win32::UI::Input::KeyboardAndMouse::MOD_NOREPEAT,
+            windows::Win32::UI::Input::KeyboardAndMouse::VK_HOME.0 as u32,
+        )
+    }
+    .is_err()
+    {
+        app.queue_notice(
+            "Home key is unavailable for Clothesline; use the tray menu instead.",
+            false,
+        );
+    }
+
     let _ = win::add_clipboard_listener(controller);
     let _ = ui::card::create(&mut app, instance);
     let _ = app

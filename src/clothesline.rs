@@ -1,26 +1,27 @@
 //! Clothesline: a small clipboard-history shelf.
 //!
-//! This is a first, text-focused implementation. It keeps the last 10 distinct
-//! clipboard text items, shows them in a topmost bar, and copies an item back
-//! to the clipboard when clicked.
+//! Text-focused implementation: keeps the last 10 distinct clipboard text items,
+//! shows them as cards hanging from a line at the top of the screen, and copies
+//! an item back to the clipboard when clicked. The window never takes focus.
 
 use std::ffi::c_void;
 
 use crate::app::App;
-use crate::ui::{self, Chrome, DipRect, id, rect};
+use crate::ui::{self, Chrome};
 use crate::win;
-use windows::Win32::Foundation::{HWND, LPARAM, LRESULT, WPARAM};
+use windows::Win32::Foundation::{HWND, LPARAM, LRESULT, POINT, RECT, WPARAM};
+use windows::Win32::Graphics::Gdi::{InvalidateRect, MoveToEx, LineTo};
 use windows::Win32::UI::WindowsAndMessaging::{
-    CREATESTRUCTW, DefWindowProcW, DestroyWindow, GWLP_USERDATA, GetWindowLongPtrW,
-    SetWindowLongPtrW, WM_CLOSE, WM_COMMAND, WM_CREATE, WM_CTLCOLORSTATIC, WM_NCCREATE,
-    WM_NCDESTROY, WS_CHILD, WS_VISIBLE,
+    CreateWindowExW, DefWindowProcW, DestroyWindow, GWLP_USERDATA, GetWindowLongPtrW,
+    SetWindowLongPtrW, WM_CLOSE, WM_COMMAND, WM_CREATE, WM_LBUTTONDOWN, WM_NCCREATE, WM_NCDESTROY,
+    WM_PAINT, CREATESTRUCTW, WS_CHILD, WS_VISIBLE, WS_POPUP, WS_EX_NOACTIVATE, WS_EX_TOOLWINDOW,
+    SWP_NOACTIVATE, SWP_NOZORDER, SetWindowPos, ShowWindow, SW_HIDE, SW_SHOWNOACTIVATE,
 };
 
 pub const CLASS: &str = "WordDockClothesline";
-
-const CLIENT: (i32, i32) = (900, 72);
 const MAX_ITEMS: usize = 10;
-const LIST_ID: u16 = 200;
+const BTN_BASE: u16 = 300;
+const WINDOW_HEIGHT: i32 = 118;
 
 struct State {
     app: *mut App,
@@ -40,7 +41,9 @@ pub fn class() -> ui::ClassSpec {
 pub fn open(app: &mut App) {
     if let Some(hwnd) = app.clothesline_hwnd {
         if win::is_window(hwnd) {
-            win::show_without_activation(hwnd);
+            unsafe {
+                let _ = ShowWindow(hwnd, SW_SHOWNOACTIVATE);
+            }
             return;
         }
         app.clothesline_hwnd = None;
@@ -54,20 +57,19 @@ pub fn open(app: &mut App) {
     });
     let pointer = Box::into_raw(state);
     let work = win::primary_work_area();
-    let width = (work.right - work.left).min(1200);
+    let width = ((work.right - work.left) * 8 / 10).clamp(320, 1200);
+    let x = work.left + (work.right - work.left - width) / 2;
+    let y = work.top + 6;
     let hwnd = unsafe {
-        windows::Win32::UI::WindowsAndMessaging::CreateWindowExW(
-            windows::Win32::UI::WindowsAndMessaging::WINDOW_EX_STYLE(0),
+        CreateWindowExW(
+            WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW,
             win::pcw(&win::wide(CLASS)),
             win::pcw(&win::wide("Clothesline")),
-            windows::Win32::UI::WindowsAndMessaging::WINDOW_STYLE(
-                windows::Win32::UI::WindowsAndMessaging::WS_POPUP.0
-                    | windows::Win32::UI::WindowsAndMessaging::WS_VISIBLE.0,
-            ),
-            work.left + (work.right - work.left - width) / 2,
-            work.top + 8,
+            WS_POPUP | WS_VISIBLE,
+            x,
+            y,
             width,
-            72,
+            WINDOW_HEIGHT,
             None,
             None,
             Some(instance),
@@ -78,6 +80,7 @@ pub fn open(app: &mut App) {
     if let Some(hwnd) = hwnd {
         app.clothesline_hwnd = Some(hwnd);
         win::set_topmost(hwnd, true);
+        refresh_buttons(hwnd);
     } else {
         unsafe {
             drop(Box::from_raw(pointer));
@@ -89,10 +92,28 @@ pub fn close(app: &mut App) {
     if let Some(hwnd) = app.clothesline_hwnd.take() {
         if win::is_window(hwnd) {
             unsafe {
-                let _ = windows::Win32::UI::WindowsAndMessaging::DestroyWindow(hwnd);
+                let _ = DestroyWindow(hwnd);
             }
         }
     }
+}
+
+pub fn toggle(app: &mut App) {
+    if let Some(hwnd) = app.clothesline_hwnd {
+        if win::is_window(hwnd) {
+            unsafe {
+                let visible = windows::Win32::UI::WindowsAndMessaging::IsWindowVisible(hwnd).as_bool();
+                if visible {
+                    let _ = ShowWindow(hwnd, SW_HIDE);
+                } else {
+                    let _ = ShowWindow(hwnd, SW_SHOWNOACTIVATE);
+                }
+            }
+            return;
+        }
+        app.clothesline_hwnd = None;
+    }
+    open(app);
 }
 
 pub fn push_item(app: &mut App, text: String) {
@@ -107,23 +128,66 @@ pub fn push_item(app: &mut App, text: String) {
     }
     if let Some(hwnd) = app.clothesline_hwnd {
         if win::is_window(hwnd) {
-            // Re-populate list
             let ptr = unsafe { GetWindowLongPtrW(hwnd, GWLP_USERDATA) as *mut State };
             if !ptr.is_null() {
                 let st = unsafe { &mut *ptr };
                 st.items = app.clothesline_items.clone();
-                populate(hwnd, st);
+            }
+            refresh_buttons(hwnd);
+            unsafe {
+                let _ = InvalidateRect(Some(hwnd), None, false);
             }
         }
     }
 }
 
-fn populate(hwnd: HWND, state: &State) {
-    if let Some(list) = win::child(hwnd, LIST_ID) {
-        ui::list_reset(list);
-        for item in &state.items {
-            ui::list_add(list, item);
+fn refresh_buttons(hwnd: HWND) {
+    let ptr = unsafe { GetWindowLongPtrW(hwnd, GWLP_USERDATA) as *mut State };
+    if ptr.is_null() {
+        return;
+    }
+    let st = unsafe { &*ptr };
+    // remove old child buttons
+    for i in 0..MAX_ITEMS {
+        let id = BTN_BASE + i as u16;
+        if let Some(child) = win::child(hwnd, id) {
+            unsafe {
+                let _ = DestroyWindow(child);
+            }
         }
+    }
+    let width = {
+        let mut r = RECT::default();
+        unsafe {
+            let _ = windows::Win32::UI::WindowsAndMessaging::GetClientRect(hwnd, &mut r);
+        }
+        r.right - r.left
+    };
+    let count = st.items.len().max(1);
+    let margin = 12;
+    let gap = 8;
+    let btn_w = ((width - margin * 2 - gap * (count as i32 - 1)) / count as i32).clamp(60, 160);
+    let btn_h = 46;
+    let y = 58;
+    for (i, text) in st.items.iter().enumerate() {
+        let x = margin + i as i32 * (btn_w + gap);
+        let label = if text.chars().count() > 18 {
+            let mut s: String = text.chars().take(17).collect();
+            s.push('…');
+            s
+        } else {
+            text.clone()
+        };
+        let _ = ui::create_child(
+            hwnd,
+            "BUTTON",
+            &label,
+            ui::STYLE_BUTTON,
+            BTN_BASE + i as u16,
+            ui::rect(x, y, btn_w, btn_h),
+            st.chrome.dpi,
+            st.chrome.font_handle(),
+        );
     }
 }
 
@@ -146,33 +210,40 @@ pub extern "system" fn proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam: LPARAM
             let s = unsafe { &mut *pointer };
             let dpi = s.chrome.dpi;
             let font = s.chrome.font_handle();
-            let _ = ui::create_child(
-                hwnd,
-                "LISTBOX",
-                "",
-                ui::STYLE_LISTBOX,
-                LIST_ID,
-                ui::rect(8, 8, 884, 56),
-                dpi,
-                font,
-            );
-            populate(hwnd, s);
+            // draw line placeholder none
+            let _ = (dpi, font);
             LRESULT(0)
         }
         windows::Win32::UI::WindowsAndMessaging::WM_COMMAND => {
             let command = ui::command_id(wparam);
-            if command == LIST_ID {
-                let ptr = unsafe { GetWindowLongPtrW(hwnd, GWLP_USERDATA) as *mut State };
-                if !ptr.is_null() {
-                    let st = unsafe { &*ptr };
-                    if let Some(list) = win::child(hwnd, LIST_ID) {
-                        if let Some(idx) = ui::list_selection(list) {
-                            if let Some(text) = st.items.get(idx) {
-                                let _ = win::set_clipboard_text(text);
-                            }
-                        }
-                    }
+            if (BTN_BASE..BTN_BASE + MAX_ITEMS as u16).contains(&command) {
+                let idx = (command - BTN_BASE) as usize;
+                let st = unsafe { &*pointer };
+                if let Some(text) = st.items.get(idx) {
+                    let _ = win::set_clipboard_text(text);
                 }
+            }
+            LRESULT(0)
+        }
+        windows::Win32::UI::WindowsAndMessaging::WM_PAINT => {
+            let mut ps = windows::Win32::Graphics::Gdi::PAINTSTRUCT::default();
+            unsafe {
+                let dc = windows::Win32::Graphics::Gdi::BeginPaint(hwnd, &mut ps);
+                let mut client = RECT::default();
+                let _ = windows::Win32::UI::WindowsAndMessaging::GetClientRect(hwnd, &mut client);
+                // draw clothesline
+                let y = 52;
+                let pen = windows::Win32::Graphics::Gdi::CreatePen(
+                    windows::Win32::Graphics::Gdi::PS_SOLID,
+                    2,
+                    windows::Win32::Foundation::COLORREF(0x00808080),
+                );
+                let old = windows::Win32::Graphics::Gdi::SelectObject(dc, windows::Win32::Graphics::Gdi::HGDIOBJ(pen.0));
+                let _ = MoveToEx(dc, 12, y, None);
+                let _ = LineTo(dc, client.right - 12, y);
+                windows::Win32::Graphics::Gdi::SelectObject(dc, old);
+                let _ = windows::Win32::Graphics::Gdi::DeleteObject(windows::Win32::Graphics::Gdi::HGDIOBJ(pen.0));
+                let _ = windows::Win32::Graphics::Gdi::EndPaint(hwnd, &ps);
             }
             LRESULT(0)
         }
