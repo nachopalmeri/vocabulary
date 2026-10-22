@@ -23,4 +23,4 @@
 - [x] Create the WordDock Rust/architecture learning guide and two source SVGs in the UADE Obsidian project folder.
 - [x] Redesign the shelf to three compact cards with a small header, paging, click-through canvas, and a 110 ms alpha fade.
 - [x] Import the 22-entry "Thinking, Fast and Slow" study collection and select it for rotation.
-- [ ] Verify launch-at-login through an actual sign-out/sign-in or reboot.
+- [x] Check launch-at-login entry: `Run` points at the release, and the app was already running after the next sign-in (PID 13072, 09:46).
