@@ -24,4 +24,5 @@
 - [x] Redesign the shelf to three compact cards with a small header, paging, click-through canvas, and a 110 ms alpha fade.
 - [x] Import the 22-entry "Thinking, Fast and Slow" study collection and select it for rotation.
 - [x] Expand the study collection to the full 613-entry list and re-select it for rotation.
+- [x] Replace every template study example with a natural, topic-specific sentence.
 - [x] Check launch-at-login entry: `Run` points at the release, and the app was already running after the next sign-in (PID 13072, 09:46).
