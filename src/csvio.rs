@@ -1072,7 +1072,7 @@ mod tests {
             &HashSet::new(),
         );
         assert!(report.error.is_none(), "{:?}", report.error);
-        assert_eq!(report.ready_count(), 22);
+        assert_eq!(report.ready_count(), 613);
         assert!(report.rows.iter().all(|row| !row.source.trim().is_empty()));
     }
 

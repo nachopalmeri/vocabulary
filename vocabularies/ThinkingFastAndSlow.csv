@@ -1,23 +1,614 @@
 word,meaning,example,source,source_language,target_language,learned
-admonition,"Advertencia o amonestación; consejo serio para corregir una conducta.","The authors' admonition is to slow down when a judgment feels obvious.","Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
-polling station,"Centro o colegio electoral donde se vota.","The researchers interviewed voters outside a polling station.","Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
-laudably,"Loablemente; de manera digna de elogio.","Laudably, the study reported its failures as carefully as its successes.","Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
-fluke,"Casualidad; golpe de suerte inesperado.","The first result was a fluke; repeated trials told a different story.","Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
-clumsy,"Torpe, desmañado; hecho sin cuidado ni precisión.","A clumsy question can bias the answer before the respondent has time to think.","Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
-thereby,"De ese modo, así; por ese medio.","They simplified the options, thereby reducing the effort needed to choose.","Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
-exert,"Ejercer presión, influencia o esfuerzo.","Even a subtle cue can exert a measurable influence on a decision.","Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
-deplete,"Agotar, consumir o reducir hasta dejar poco.","Hard mental work can deplete self-control for the rest of the day.","Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
-stirring film,"Película conmovedora o emocionante, que despierta sentimientos fuertes.","A stirring film can leave us moved long after the credits.","Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
-veal,"Ternera; carne de un ternero joven.","The menu offered veal with mushrooms.","Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
-meek and tidy soul,"Alma mansa y ordenada; persona sumisa, pulcra y metódica.","The anecdote describes a meek and tidy soul who loves order.","Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
-librarian,"Bibliotecario o bibliotecaria.","The librarian stereotype shows how a vivid story can overwhelm base rates.","Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
-heuristic,"Heurística; atajo mental o regla simple que ayuda a decidir rápido.","Availability is a heuristic: we judge frequency by how easily examples come to mind.","Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
-gossip,"Chisme, cotilleo; conversación sobre la vida de otras personas.","Gossip is a cheap way to learn who can be trusted.","Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
-exchange,"Intercambio; acción de dar una cosa y recibir otra.","A fair exchange of ideas requires both sides to listen.","Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
-diseases,"Enfermedades.","The test is unreliable for rare diseases because false positives dominate.","Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
-watercooler conversations,"Charlas de pasillo o de oficina, informales y breves.","Watercooler conversations spread norms faster than formal memos.","Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
-priming,"Priming; activación previa que hace más fácil recordar o notar algo.","Priming can make a word or an idea easier to retrieve.","Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
-association,"Asociación; vínculo mental entre ideas, imágenes o recuerdos.","The mind links related ideas by association, not by logic alone.","Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
-unwitting,"Involuntario; hecho sin darse cuenta o sin intención.","She became an unwitting participant in the experiment.","Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
-errors of judgment and choice,"Errores de juicio y de elección; fallas al evaluar situaciones o decidir.","Training should improve the ability to identify and understand errors of judgment and choice.","Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
-"improve the ability to identify and understand errors of judgment and choice","Mejorar la capacidad de identificar y comprender los errores de juicio y de elección.","The goal of the course is to improve the ability to identify and understand errors of judgment and choice.","Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+thinking,pensamiento,The mind uses thinking when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+fast thinking,pensamiento rápido,The mind uses fast thinking when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+slow thinking,pensamiento lento,The mind uses slow thinking when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+judgment,juicio; valoración,The mind uses judgment when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+choice,elección,The mind uses choice when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+decision-making,toma de decisiones,The mind uses decision-making when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+intuition,intuición,The mind uses intuition when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+intuitive,intuitivo,The mind uses intuitive when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+reasoning,razonamiento,The mind uses reasoning when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+deliberate,deliberado; reflexivo,The mind uses deliberate when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+automatic,automático,The mind uses automatic when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+effortful,que requiere esfuerzo,The mind uses effortful when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+effortless,sin esfuerzo,The mind uses effortless when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+mental effort,esfuerzo mental,The mind uses mental effort when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+cognitive,cognitivo,The mind uses cognitive when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+cognition,cognición,The mind uses cognition when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+perception,percepción,The mind uses perception when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+perceive,percibir,The mind uses perceive when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+awareness,conciencia; percepción,The mind uses awareness when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+aware,consciente,The mind uses aware when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+unaware,desconocedor; inconsciente de algo,The mind uses unaware when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+conscious,consciente,The mind uses conscious when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+unconscious,inconsciente,The mind uses unconscious when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+assumption,suposición,The mind uses assumption when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+assume,suponer,The mind uses assume when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+belief,creencia,The mind uses belief when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+believe,creer,The mind uses believe when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+impression,impresión,The mind uses impression when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+mood,estado de ánimo,The mind uses mood when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+hunch,corazonada,The mind uses hunch when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+gut feeling,presentimiento; intuición,The mind uses gut feeling when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+instinct,instinto,The mind uses instinct when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+mind,mente,The mind uses mind when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+brain,cerebro,The mind uses brain when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+behavior,comportamiento,The mind uses behavior when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+behavioral,conductual,The mind uses behavioral when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+psychologist,psicólogo,The mind uses psychologist when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+experiment,experimento,The mind uses experiment when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+participant,participante,The mind uses participant when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+subject,sujeto de estudio,The mind uses subject when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+research,investigación,The mind uses research when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+finding,hallazgo,The mind uses finding when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+evidence,evidencia; prueba,The mind uses evidence when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+claim,afirmación; sostener,The mind uses claim when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+account for,explicar; dar cuenta de,The mind uses account for when making everyday decisions.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+attention,atención,A demanding task can affect attention during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+pay attention,prestar atención,A demanding task can affect pay attention during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+focus,concentrarse; enfoque,A demanding task can affect focus during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+concentrate,concentrarse,A demanding task can affect concentrate during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+concentration,concentración,A demanding task can affect concentration during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+effort,esfuerzo,A demanding task can affect effort during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+exert,ejercer; realizar (esfuerzo),A demanding task can affect exert during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+exertion,esfuerzo físico o mental,A demanding task can affect exertion during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+strain,tensión; esfuerzo; forzar,A demanding task can affect strain during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+stroll,pasear; paseo tranquilo,A demanding task can affect stroll during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+muster,reunir; juntar fuerzas,A demanding task can affect muster during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+deplete,agotar; reducir reservas,A demanding task can affect deplete during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+depletion,agotamiento; disminución,A demanding task can affect depletion during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+fatigue,fatiga; cansancio,A demanding task can affect fatigue during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+exhausted,agotado,A demanding task can affect exhausted during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+exhaustion,agotamiento,A demanding task can affect exhaustion during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+demanding,exigente,A demanding task can affect demanding during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+demand,exigencia; exigir,A demanding task can affect demand during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+task,tarea,A demanding task can affect task during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+perform,realizar; desempeñar,A demanding task can affect perform during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+performance,rendimiento; desempeño,A demanding task can affect performance during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+capacity,capacidad,A demanding task can affect capacity during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+limited capacity,capacidad limitada,A demanding task can affect limited capacity during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+allocate,asignar; distribuir,A demanding task can affect allocate during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+allocation,asignación; distribución,A demanding task can affect allocation during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+monitor,supervisar; controlar,A demanding task can affect monitor during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+pupil,pupila,A demanding task can affect pupil during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+dilate,dilatar(se),A demanding task can affect dilate during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+arousal,activación fisiológica,A demanding task can affect arousal during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+distraction,distracción,A demanding task can affect distraction during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+distract,distraer,A demanding task can affect distract during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+interrupt,interrumpir,A demanding task can affect interrupt during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+switch,cambiar; alternar,A demanding task can affect switch during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+switching,alternancia; cambio,A demanding task can affect switching during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+multitasking,multitarea,A demanding task can affect multitasking during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+self-control,autocontrol,A demanding task can affect self-control during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+willpower,fuerza de voluntad,A demanding task can affect willpower during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+temptation,tentación,A demanding task can affect temptation during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+resist,resistir,A demanding task can affect resist during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+impulse,impulso,A demanding task can affect impulse during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+impulsive,impulsivo,A demanding task can affect impulsive during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+lazy,perezoso,A demanding task can affect lazy during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+laziness,pereza,A demanding task can affect laziness during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+mental energy,energía mental,A demanding task can affect mental energy during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+cognitive load,carga cognitiva,A demanding task can affect cognitive load during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+working memory,memoria de trabajo,A demanding task can affect working memory during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+short-term memory,memoria a corto plazo,A demanding task can affect short-term memory during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+remember,recordar,A demanding task can affect remember during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+recall,recordar; evocar,A demanding task can affect recall during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+retrieve,recuperar información,A demanding task can affect retrieve during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+retain,retener,A demanding task can affect retain during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+memorize,memorizar,A demanding task can affect memorize during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+sequence,secuencia,A demanding task can affect sequence during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+add up,sumar; tener sentido,A demanding task can affect add up during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+subtract,restar,A demanding task can affect subtract during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+multiply,multiplicar,A demanding task can affect multiply during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+digits,dígitos; cifras,A demanding task can affect digits during a long study session.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+association,asociación,The experiment examined how association influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+associate,asociar,The experiment examined how associate influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+associative,asociativo,The experiment examined how associative influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+priming,activación previa; primado,The experiment examined how priming influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+prime,predisponer mediante un estímulo previo,The experiment examined how prime influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+trigger,desencadenar; activador,The experiment examined how trigger influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+cue,señal; pista,The experiment examined how cue influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+stimulus,estímulo,The experiment examined how stimulus influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+response,respuesta,The experiment examined how response influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+exposure,exposición,The experiment examined how exposure influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+expose,exponer,The experiment examined how expose influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+familiar,familiar; conocido,The experiment examined how familiar influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+familiarity,familiaridad,The experiment examined how familiarity influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+fluency,fluidez,The experiment examined how fluency influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+cognitive ease,facilidad cognitiva,The experiment examined how cognitive ease influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+cognitive strain,tensión cognitiva,The experiment examined how cognitive strain influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+coherence,coherencia,The experiment examined how coherence influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+coherent,coherente,The experiment examined how coherent influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+pattern,patrón,The experiment examined how pattern influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+recognize,reconocer,The experiment examined how recognize influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+recognition,reconocimiento,The experiment examined how recognition influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+repetition,repetición,The experiment examined how repetition influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+repeat,repetir,The experiment examined how repeat influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+mere exposure effect,efecto de mera exposición,The experiment examined how mere exposure effect influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+illusion,ilusión,The experiment examined how illusion influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+illusion of truth,ilusión de verdad,The experiment examined how illusion of truth influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+misleading,engañoso,The experiment examined how misleading influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+mislead,inducir a error,The experiment examined how mislead influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+plausible,verosímil; plausible,The experiment examined how plausible influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+plausibility,verosimilitud,The experiment examined how plausibility influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+believable,creíble,The experiment examined how believable influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+random,aleatorio,The experiment examined how random influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+randomness,aleatoriedad,The experiment examined how randomness influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+coincidence,coincidencia,The experiment examined how coincidence influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+fluke,casualidad inesperada; golpe de suerte,The experiment examined how fluke influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+flukes,casualidades inesperadas,The experiment examined how flukes influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+unwitting,involuntario; sin darse cuenta,The experiment examined how unwitting influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+unwittingly,sin darse cuenta,The experiment examined how unwittingly influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+stir,provocar; despertar una emoción,The experiment examined how stir influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+stirring,conmovedor; que despierta emociones,The experiment examined how stirring influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+amused,divertido; entretenido,The experiment examined how amused influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+mild,leve; moderado,The experiment examined how mild influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+smile,sonreír; sonrisa,The experiment examined how smile influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+frown,fruncir el ceño,The experiment examined how frown influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+nod,asentir con la cabeza,The experiment examined how nod influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+gesture,gesto,The experiment examined how gesture influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+posture,postura,The experiment examined how posture influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+embody,encarnar; expresar corporalmente,The experiment examined how embody influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+embodied cognition,cognición corporizada,The experiment examined how embodied cognition influences a quick response.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+heuristic,heurística; atajo mental,This example helps explain heuristic in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+shortcut,atajo,This example helps explain shortcut in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+bias,sesgo,This example helps explain bias in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+biased,sesgado,This example helps explain biased in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+cognitive bias,sesgo cognitivo,This example helps explain cognitive bias in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+systematic error,error sistemático,This example helps explain systematic error in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+flawed,defectuoso; con fallas,This example helps explain flawed in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+flaw,defecto; falla,This example helps explain flaw in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+fallacy,falacia,This example helps explain fallacy in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+mistake,error,This example helps explain mistake in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+error of judgment,error de juicio,This example helps explain error of judgment in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+availability heuristic,heurística de disponibilidad,This example helps explain availability heuristic in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+availability,disponibilidad,This example helps explain availability in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+available,disponible,This example helps explain available in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+salient,llamativo; destacado,This example helps explain salient in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+salience,prominencia; relevancia perceptiva,This example helps explain salience in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+vivid,vívido; intenso,This example helps explain vivid in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+vividness,viveza; intensidad,This example helps explain vividness in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+memorable,fácil de recordar,This example helps explain memorable in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+frequency,frecuencia,This example helps explain frequency in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+frequent,frecuente,This example helps explain frequent in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+estimate,estimar; estimación,This example helps explain estimate in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+estimation,estimación,This example helps explain estimation in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+assess,evaluar; valorar,This example helps explain assess in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+assessment,evaluación,This example helps explain assessment in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+likelihood,probabilidad; posibilidad de ocurrencia,This example helps explain likelihood in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+likely,probable,This example helps explain likely in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+unlikely,improbable,This example helps explain unlikely in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+probability,probabilidad,This example helps explain probability in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+statistics,estadística,This example helps explain statistics in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+statistical,estadístico,This example helps explain statistical in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+sample,muestra,This example helps explain sample in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+sample size,tamaño de la muestra,This example helps explain sample size in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+sampling,muestreo,This example helps explain sampling in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+representativeness,representatividad,This example helps explain representativeness in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+representative,representativo,This example helps explain representative in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+resemble,parecerse a,This example helps explain resemble in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+similarity,similitud,This example helps explain similarity in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+stereotype,estereotipo,This example helps explain stereotype in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+base rate,tasa base; frecuencia previa,This example helps explain base rate in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+base-rate neglect,descuido de la tasa base,This example helps explain base-rate neglect in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+prior probability,probabilidad previa,This example helps explain prior probability in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+conditional probability,probabilidad condicional,This example helps explain conditional probability in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+conjunction fallacy,falacia de conjunción,This example helps explain conjunction fallacy in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+conjunction,conjunción; coincidencia de hechos,This example helps explain conjunction in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+anchoring,anclaje,This example helps explain anchoring in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+anchor,ancla; referencia inicial,This example helps explain anchor in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+anchoring effect,efecto de anclaje,This example helps explain anchoring effect in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+adjustment,ajuste,This example helps explain adjustment in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+adjust,ajustar,This example helps explain adjust in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+arbitrary,arbitrario,This example helps explain arbitrary in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+irrelevant,irrelevante,This example helps explain irrelevant in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+substitute,sustituir,This example helps explain substitute in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+substitution,sustitución,This example helps explain substitution in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+attribute substitution,sustitución de atributos,This example helps explain attribute substitution in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+target question,pregunta objetivo,This example helps explain target question in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+heuristic question,pregunta heurística,This example helps explain heuristic question in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+framing,encuadre; forma de presentar,This example helps explain framing in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+frame,encuadrar; presentar,This example helps explain frame in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+framing effect,efecto del encuadre,This example helps explain framing effect in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+wording,redacción; formulación,This example helps explain wording in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+word,formular en palabras,This example helps explain word in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+context,contexto,This example helps explain context in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+neglect,descuidar; pasar por alto,This example helps explain neglect in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+overlook,pasar por alto,This example helps explain overlook in everyday judgments.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+confidence,confianza,Researchers considered confidence before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+confident,seguro; confiado,Researchers considered confident before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+overconfidence,exceso de confianza,Researchers considered overconfidence before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+overconfident,excesivamente confiado,Researchers considered overconfident before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+certainty,certeza,Researchers considered certainty before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+uncertainty,incertidumbre,Researchers considered uncertainty before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+uncertain,incierto,Researchers considered uncertain before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+predict,predecir,Researchers considered predict before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+prediction,predicción,Researchers considered prediction before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+predictable,predecible,Researchers considered predictable before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+unpredictable,impredecible,Researchers considered unpredictable before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+forecast,pronóstico; pronosticar,Researchers considered forecast before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+hindsight,perspectiva retrospectiva,Researchers considered hindsight before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+hindsight bias,sesgo retrospectivo,Researchers considered hindsight bias before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+outcome,resultado,Researchers considered outcome before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+outcome bias,sesgo por resultado,Researchers considered outcome bias before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+inside view,perspectiva interna,Researchers considered inside view before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+outside view,perspectiva externa,Researchers considered outside view before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+planning fallacy,falacia de planificación,Researchers considered planning fallacy before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+optimism,optimismo,Researchers considered optimism before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+optimistic,optimista,Researchers considered optimistic before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+optimism bias,sesgo optimista,Researchers considered optimism bias before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+expertise,pericia; conocimiento experto,Researchers considered expertise before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+expert,experto,Researchers considered expert before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+skill,habilidad,Researchers considered skill before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+luck,suerte,Researchers considered luck before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+chance,azar; oportunidad,Researchers considered chance before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+noise,ruido; variación irrelevante,Researchers considered noise before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+signal,señal; información útil,Researchers considered signal before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+reliability,fiabilidad,Researchers considered reliability before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+reliable,fiable; confiable,Researchers considered reliable before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+validity,validez,Researchers considered validity before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+valid,válido,Researchers considered valid before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+correlation,correlación,Researchers considered correlation before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+correlate,correlacionar,Researchers considered correlate before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+causation,causalidad,Researchers considered causation before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+cause,causa; causar,Researchers considered cause before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+causal,causal,Researchers considered causal before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+regression,regresión estadística,Researchers considered regression before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+regression to the mean,regresión a la media,Researchers considered regression to the mean before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+mean,media; promedio,Researchers considered mean before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+average,promedio; promedio/a,Researchers considered average before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+variance,varianza,Researchers considered variance before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+variation,variación,Researchers considered variation before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+distribution,distribución,Researchers considered distribution before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+normal distribution,distribución normal,Researchers considered normal distribution before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+outlier,valor atípico,Researchers considered outlier before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+rate,tasa; índice,Researchers considered rate before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+ratio,proporción; relación,Researchers considered ratio before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+percentage,porcentaje,Researchers considered percentage before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+proportion,proporción,Researchers considered proportion before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+statistically significant,estadísticamente significativo,Researchers considered statistically significant before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+random sample,muestra aleatoria,Researchers considered random sample before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+small numbers,números pequeños,Researchers considered small numbers before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+law of small numbers,ley de los números pequeños,Researchers considered law of small numbers before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+law of large numbers,ley de los grandes números,Researchers considered law of large numbers before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+cluster,agrupación; grupo,Researchers considered cluster before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+clustered,agrupado,Researchers considered clustered before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+exaggerate,exagerar,Researchers considered exaggerate before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+underestimate,subestimar,Researchers considered underestimate before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+overestimate,sobreestimar,Researchers considered overestimate before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+misjudge,juzgar erróneamente,Researchers considered misjudge before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+illusion of validity,ilusión de validez,Researchers considered illusion of validity before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+narrative fallacy,falacia narrativa,Researchers considered narrative fallacy before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+storytelling,narración de historias,Researchers considered storytelling before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+story,historia; relato,Researchers considered story before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+halo effect,efecto halo,Researchers considered halo effect before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+what you see is all there is,lo que ves es todo lo que hay,Researchers considered what you see is all there is before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+WYSIATI,sigla de lo que ves es todo lo que hay,Researchers considered WYSIATI before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+suppress,suprimir; reprimir,Researchers considered suppress before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+doubt,duda; dudar,Researchers considered doubt before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+skeptical,escéptico,Researchers considered skeptical before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+skepticism,escepticismo,Researchers considered skepticism before making a prediction.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+risk,riesgo,The participants considered risk when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+risky,arriesgado,The participants considered risky when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+risk aversion,aversión al riesgo,The participants considered risk aversion when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+risk-seeking,propenso al riesgo,The participants considered risk-seeking when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+loss,pérdida,The participants considered loss when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+lose,perder,The participants considered lose when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+loss aversion,aversión a la pérdida,The participants considered loss aversion when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+gain,ganancia; ganar,The participants considered gain when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+profit,beneficio económico,The participants considered profit when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+payoff,resultado; ganancia de una apuesta,The participants considered payoff when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+stake,lo que está en juego; apuesta,The participants considered stake when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+bet,apuesta; apostar,The participants considered bet when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+gamble,apostar; arriesgar,The participants considered gamble when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+gambler,apostador,The participants considered gambler when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+lottery,lotería,The participants considered lottery when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+gamble on,apostar por,The participants considered gamble on when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+trade-off,compensación entre ventajas y desventajas,The participants considered trade-off when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+utility,utilidad económica; satisfacción,The participants considered utility when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+expected utility,utilidad esperada,The participants considered expected utility when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+expected value,valor esperado,The participants considered expected value when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+prospect theory,teoría de las perspectivas,The participants considered prospect theory when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+prospect,perspectiva de ganancia o pérdida,The participants considered prospect when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+reference point,punto de referencia,The participants considered reference point when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+reference-dependent,dependiente del punto de referencia,The participants considered reference-dependent when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+endowment effect,efecto dotación,The participants considered endowment effect when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+ownership,propiedad; posesión,The participants considered ownership when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+own,poseer; propio,The participants considered own when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+status quo,estado actual de las cosas,The participants considered status quo when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+status quo bias,sesgo del statu quo,The participants considered status quo bias when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+default,opción predeterminada,The participants considered default when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+sunk cost,costo hundido,The participants considered sunk cost when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+sunk-cost fallacy,falacia del costo hundido,The participants considered sunk-cost fallacy when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+regret,arrepentimiento; lamentar,The participants considered regret when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+regret aversion,aversión al arrepentimiento,The participants considered regret aversion when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+disappointment,decepción,The participants considered disappointment when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+anticipate,anticipar,The participants considered anticipate when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+anticipated regret,arrepentimiento anticipado,The participants considered anticipated regret when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+counterfactual,contrafactual; alternativa hipotética,The participants considered counterfactual when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+counterfactual thinking,pensamiento contrafactual,The participants considered counterfactual thinking when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+opportunity cost,costo de oportunidad,The participants considered opportunity cost when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+incentive,incentivo,The participants considered incentive when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+penalty,penalización; multa,The participants considered penalty when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+reward,recompensa,The participants considered reward when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+punishment,castigo,The participants considered punishment when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+fairness,justicia; equidad,The participants considered fairness when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+fair,justo; equitativo,The participants considered fair when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+unfair,injusto,The participants considered unfair when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+transaction,transacción,The participants considered transaction when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+bargain,ganga; negociar,The participants considered bargain when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+purchase,compra; comprar,The participants considered purchase when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+willingness to pay,disposición a pagar,The participants considered willingness to pay when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+mental accounting,contabilidad mental,The participants considered mental accounting when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+account,cuenta; contabilizar,The participants considered account when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+budget,presupuesto,The participants considered budget when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+income,ingresos,The participants considered income when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+wealth,riqueza; patrimonio,The participants considered wealth when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+asset,activo,The participants considered asset when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+liability,pasivo; obligación,The participants considered liability when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+value,valor; valorar,The participants considered value when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+worth,valor; que vale,The participants considered worth when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+valuable,valioso,The participants considered valuable when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+worthwhile,que vale la pena,The participants considered worthwhile when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+weigh,sopesar; ponderar,The participants considered weigh when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+probability weighting,ponderación de probabilidades,The participants considered probability weighting when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+decision weight,peso de decisión,The participants considered decision weight when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+certainty effect,efecto certeza,The participants considered certainty effect when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+possibility effect,efecto posibilidad,The participants considered possibility effect when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+fourfold pattern,patrón de cuatro posibilidades,The participants considered fourfold pattern when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+rare event,suceso poco frecuente,The participants considered rare event when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+unlikely event,evento improbable,The participants considered unlikely event when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+neglect probabilities,ignorar probabilidades,The participants considered neglect probabilities when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+focusing illusion,ilusión de focalización,The participants considered focusing illusion when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+narrow framing,encuadre estrecho,The participants considered narrow framing when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+broad framing,encuadre amplio,The participants considered broad framing when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+joint evaluation,evaluación conjunta,The participants considered joint evaluation when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+separate evaluation,evaluación separada,The participants considered separate evaluation when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+preference,preferencia,The participants considered preference when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+prefer,preferir,The participants considered prefer when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+indifference,indiferencia,The participants considered indifference when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+consistent,coherente; consistente,The participants considered consistent when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+inconsistent,inconsistente,The participants considered inconsistent when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+rational,racional,The participants considered rational when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+rationality,racionalidad,The participants considered rationality when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+irrational,irracional,The participants considered irrational when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+irrationality,irracionalidad,The participants considered irrationality when choosing between options.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+experience,experiencia; experimentar,The survey explored experience and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+experienced self,yo que experimenta,The survey explored experienced self and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+remembering self,yo que recuerda,The survey explored remembering self and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+memory,memoria; recuerdo,The survey explored memory and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+recollection,recuerdo; evocación,The survey explored recollection and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+well-being,bienestar,The survey explored well-being and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+happiness,felicidad,The survey explored happiness and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+happy,feliz,The survey explored happy and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+satisfaction,satisfacción,The survey explored satisfaction and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+life satisfaction,satisfacción con la vida,The survey explored life satisfaction and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+pleasure,placer,The survey explored pleasure and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+pain,dolor,The survey explored pain and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+painful,doloroso,The survey explored painful and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+unpleasant,desagradable,The survey explored unpleasant and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+pleasant,agradable,The survey explored pleasant and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+affect,afecto; estado emocional,The survey explored affect and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+emotion,emoción,The survey explored emotion and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+emotional,emocional,The survey explored emotional and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+intensity,intensidad,The survey explored intensity and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+duration,duración,The survey explored duration and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+duration neglect,descuido de la duración,The survey explored duration neglect and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+peak-end rule,regla del pico y el final,The survey explored peak-end rule and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+peak,pico; punto máximo,The survey explored peak and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+ending,final; desenlace,The survey explored ending and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+retrospective,retrospectivo,The survey explored retrospective and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+retrospective evaluation,evaluación retrospectiva,The survey explored retrospective evaluation and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+moment,momento,The survey explored moment and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+momentary,momentáneo,The survey explored momentary and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+ongoing,en curso; continuo,The survey explored ongoing and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+adaptation,adaptación,The survey explored adaptation and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+adapt,adaptarse,The survey explored adapt and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+hedonic adaptation,adaptación hedónica,The survey explored hedonic adaptation and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+attention illusion,ilusión ligada a la atención,The survey explored attention illusion and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+focusing,focalización,The survey explored focusing and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+suffering,sufrimiento,The survey explored suffering and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+suffer,sufrir,The survey explored suffer and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+relief,alivio,The survey explored relief and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+avoidance,evitación,The survey explored avoidance and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+avoid,evitar,The survey explored avoid and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+survey,encuesta,The survey explored survey and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+survey response,respuesta de encuesta,The survey explored survey response and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+self-report,autoinforme,The survey explored self-report and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+evaluate,evaluar,The survey explored evaluate and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+rating,valoración; calificación,The survey explored rating and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+measure,medir; medida,The survey explored measure and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+measurement,medición,The survey explored measurement and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+comparison,comparación,The survey explored comparison and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+compare,comparar,The survey explored compare and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+benchmark,referencia de comparación,The survey explored benchmark and how people remember events.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+thereby,de ese modo; por lo tanto,Notice the expression “thereby” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+therefore,por lo tanto,Notice the expression “therefore” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+thus,así; por consiguiente,Notice the expression “thus” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+hence,de ahí; por lo tanto,Notice the expression “hence” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+however,sin embargo,Notice the expression “however” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+nevertheless,sin embargo; pese a ello,Notice the expression “nevertheless” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+although,aunque,Notice the expression “although” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+even though,aunque; a pesar de que,Notice the expression “even though” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+whereas,mientras que; en cambio,Notice the expression “whereas” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+unless,a menos que,Notice the expression “unless” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+otherwise,de lo contrario,Notice the expression “otherwise” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+instead,en lugar de eso,Notice the expression “instead” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+rather than,en vez de,Notice the expression “rather than” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+regardless of,independientemente de,Notice the expression “regardless of” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+despite,a pesar de,Notice the expression “despite” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+in spite of,a pesar de,Notice the expression “in spite of” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+in contrast,en contraste,Notice the expression “in contrast” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+on the other hand,por otro lado,Notice the expression “on the other hand” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+for instance,por ejemplo,Notice the expression “for instance” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+namely,es decir; concretamente,Notice the expression “namely” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+in particular,en particular,Notice the expression “in particular” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+likewise,de igual manera,Notice the expression “likewise” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+similarly,de forma similar,Notice the expression “similarly” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+roughly,aproximadamente,Notice the expression “roughly” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+approximately,aproximadamente,Notice the expression “approximately” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+slightly,ligeramente,Notice the expression “slightly” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+somewhat,algo; un tanto,Notice the expression “somewhat” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+mildly,levemente,Notice the expression “mildly” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+barely,apenas,Notice the expression “barely” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+hardly,casi no; apenas,Notice the expression “hardly” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+nearly,casi,Notice the expression “nearly” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+merely,meramente; simplemente,Notice the expression “merely” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+mostly,principalmente; en su mayor parte,Notice the expression “mostly” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+largely,en gran medida,Notice the expression “largely” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+mainly,principalmente,Notice the expression “mainly” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+indeed,en efecto; efectivamente,Notice the expression “indeed” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+apparently,aparentemente,Notice the expression “apparently” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+presumably,presumiblemente,Notice the expression “presumably” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+supposedly,supuestamente,Notice the expression “supposedly” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+admittedly,hay que reconocer que,Notice the expression “admittedly” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+arguably,se puede argumentar que,Notice the expression “arguably” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+seemingly,aparentemente,Notice the expression “seemingly” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+wary,cauteloso; desconfiado,Notice the expression “wary” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+clumsy,torpe,Notice the expression “clumsy” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+admonition,advertencia; reprimenda,Notice the expression “admonition” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+admonish,amonestar; reprender,Notice the expression “admonish” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+laudably,de manera elogiable,Notice the expression “laudably” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+praise,elogiar; elogio,Notice the expression “praise” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+remarkable,notable; extraordinario,Notice the expression “remarkable” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+striking,llamativo; sorprendente,Notice the expression “striking” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+subtle,sutil,Notice the expression “subtle” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+subtlety,sutileza,Notice the expression “subtlety” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+obvious,evidente,Notice the expression “obvious” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+obviously,evidentemente,Notice the expression “obviously” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+counterintuitive,contrario a la intuición,Notice the expression “counterintuitive” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+puzzling,desconcertante,Notice the expression “puzzling” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+puzzle,enigma; desconcertar,Notice the expression “puzzle” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+puzzled,perplejo,Notice the expression “puzzled” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+astonishing,asombroso,Notice the expression “astonishing” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+surprising,sorprendente,Notice the expression “surprising” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+surprisingly,sorprendentemente,Notice the expression “surprisingly” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+awkward,incómodo; torpe,Notice the expression “awkward” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+odd,extraño; impar,Notice the expression “odd” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+oddly,extrañamente,Notice the expression “oddly” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+weird,raro; extraño,Notice the expression “weird” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+peculiar,peculiar; extraño,Notice the expression “peculiar” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+straightforward,directo; sencillo,Notice the expression “straightforward” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+tricky,complicado; engañoso,Notice the expression “tricky” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+neat,ordenado; ingenioso,Notice the expression “neat” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+messy,desordenado; complejo,Notice the expression “messy” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+steady,estable; constante,Notice the expression “steady” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+steadily,constantemente,Notice the expression “steadily” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+swift,rápido,Notice the expression “swift” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+swiftly,rápidamente,Notice the expression “swiftly” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+gradual,gradual,Notice the expression “gradual” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+gradually,gradualmente,Notice the expression “gradually” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+abrupt,repentino; brusco,Notice the expression “abrupt” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+abruptly,de golpe; abruptamente,Notice the expression “abruptly” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+widespread,generalizado; extendido,Notice the expression “widespread” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+widespread belief,creencia extendida,Notice the expression “widespread belief” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+commonplace,habitual; común,Notice the expression “commonplace” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+rarely,rara vez,Notice the expression “rarely” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+seldom,rara vez,Notice the expression “seldom” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+frequently,frecuentemente,Notice the expression “frequently” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+occasionally,ocasionalmente,Notice the expression “occasionally” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+constantly,constantemente,Notice the expression “constantly” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+regard,considerar; respecto,Notice the expression “regard” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+regarding,respecto de,Notice the expression “regarding” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+regardless,de todos modos,Notice the expression “regardless” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+regard as,considerar como,Notice the expression “regard as” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+involve,implicar; involucrar,Notice the expression “involve” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+involvement,participación; implicación,Notice the expression “involvement” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+entail,implicar; conllevar,Notice the expression “entail” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+require,requerir,Notice the expression “require” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+requirement,requisito,Notice the expression “requirement” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+rely on,depender de; apoyarse en,Notice the expression “rely on” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+reliance,dependencia; confianza depositada,Notice the expression “reliance” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+reveal,revelar; mostrar,Notice the expression “reveal” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+highlight,destacar,Notice the expression “highlight” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+emphasize,enfatizar,Notice the expression “emphasize” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+point out,señalar; indicar,Notice the expression “point out” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+bring about,provocar; producir,Notice the expression “bring about” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+bring up,mencionar; plantear,Notice the expression “bring up” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+come up with,idear; encontrar una solución,Notice the expression “come up with” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+figure out,entender; resolver,Notice the expression “figure out” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+rule out,descartar,Notice the expression “rule out” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+carry out,llevar a cabo,Notice the expression “carry out” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+turn out,resultar; acabar siendo,Notice the expression “turn out” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+turn into,convertirse en,Notice the expression “turn into” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+come across,encontrarse con; dar la impresión,Notice the expression “come across” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+come to mind,venir a la mente,Notice the expression “come to mind” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+make sense,tener sentido,Notice the expression “make sense” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+make up,inventar; constituir,Notice the expression “make up” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+make up for,compensar,Notice the expression “make up for” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+make a difference,marcar una diferencia,Notice the expression “make a difference” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+take into account,tener en cuenta,Notice the expression “take into account” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+take for granted,dar por sentado,Notice the expression “take for granted” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+bear in mind,tener presente,Notice the expression “bear in mind” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+keep track of,llevar registro de,Notice the expression “keep track of” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+set aside,dejar de lado; reservar,Notice the expression “set aside” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+set out,exponer; proponerse,Notice the expression “set out” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+stem from,derivar de; originarse en,Notice the expression “stem from” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+lead to,llevar a; conducir a,Notice the expression “lead to” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+result in,dar como resultado,Notice the expression “result in” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+result from,resultar de,Notice the expression “result from” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+be prone to,ser propenso a,Notice the expression “be prone to” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+be likely to,ser probable que,Notice the expression “be likely to” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+be bound to,ser inevitable que,Notice the expression “be bound to” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+be supposed to,se supone que,Notice the expression “be supposed to” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+be inclined to,tender a; sentirse inclinado a,Notice the expression “be inclined to” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+by contrast,por el contrario,Notice the expression “by contrast” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+by default,por defecto,Notice the expression “by default” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+by chance,por casualidad,Notice the expression “by chance” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+at random,al azar,Notice the expression “at random” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+at stake,en juego,Notice the expression “at stake” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+in hindsight,visto en retrospectiva,Notice the expression “in hindsight” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+in turn,a su vez,Notice the expression “in turn” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+in terms of,en términos de,Notice the expression “in terms of” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+in light of,a la luz de,Notice the expression “in light of” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+in the long run,a largo plazo,Notice the expression “in the long run” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+in the short run,a corto plazo,Notice the expression “in the short run” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+for the sake of,por el bien de; en aras de,Notice the expression “for the sake of” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+rather,más bien; bastante,Notice the expression “rather” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+whether,si; ya sea que,Notice the expression “whether” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+whether or not,independientemente de si,Notice the expression “whether or not” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+whereby,mediante el cual,Notice the expression “whereby” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+wherein,en el cual,Notice the expression “wherein” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+moreover,además,Notice the expression “moreover” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+furthermore,además,Notice the expression “furthermore” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+nonetheless,sin embargo,Notice the expression “nonetheless” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+accordingly,en consecuencia,Notice the expression “accordingly” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+subsequently,posteriormente,Notice the expression “subsequently” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+previously,anteriormente,Notice the expression “previously” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+prior to,antes de,Notice the expression “prior to” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+following,después de; siguiente,Notice the expression “following” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+underlying,subyacente,Notice the expression “underlying” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+underlie,ser la base de,Notice the expression “underlie” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+underpin,sustentar; respaldar,Notice the expression “underpin” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+arise,surgir,Notice the expression “arise” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+arise from,surgir de,Notice the expression “arise from” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+arouse,despertar; suscitar,Notice the expression “arouse” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+compelling,convincente; atractivo,Notice the expression “compelling” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+convincing,convincente,Notice the expression “convincing” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+persuade,persuadir,Notice the expression “persuade” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+persuasive,persuasivo,Notice the expression “persuasive” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+misconception,idea equivocada,Notice the expression “misconception” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+misunderstanding,malentendido,Notice the expression “misunderstanding” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+misinterpret,interpretar mal,Notice the expression “misinterpret” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+misinterpretation,interpretación errónea,Notice the expression “misinterpretation” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+counterexample,contraejemplo,Notice the expression “counterexample” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+counterargument,contraargumento,Notice the expression “counterargument” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+challenge,desafiar; cuestionar; desafío,Notice the expression “challenge” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+challenging,desafiante; difícil,Notice the expression “challenging” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+undermine,socavar; debilitar,Notice the expression “undermine” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+support,apoyar; respaldo,Notice the expression “support” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+supporting evidence,evidencia de respaldo,Notice the expression “supporting evidence” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+back up,respaldar; hacer copia de seguridad,Notice the expression “back up” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+well-established,bien establecido,Notice the expression “well-established” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+robust,sólido; resistente,Notice the expression “robust” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+robustness,solidez; robustez,Notice the expression “robustness” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+threshold,umbral,Notice the expression “threshold” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+tradeoff,compensación entre factores,Notice the expression “tradeoff” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+pay attention to,prestar atención a,Notice the expression “pay attention to” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+watercooler conversations,charlas informales de oficina,Notice the expression “watercooler conversations” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+gossip,chisme; cotilleo,Notice the expression “gossip” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+exchange,intercambio; intercambiar,Notice the expression “exchange” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+disease,enfermedad,Notice the expression “disease” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+diseases,enfermedades,Notice the expression “diseases” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+eraser,goma de borrar,Notice the expression “eraser” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false
+polling station,centro de votación; mesa electoral,Notice the expression “polling station” when reading an academic argument.,"Thinking, Fast and Slow (Daniel Kahneman)",English,Spanish,false

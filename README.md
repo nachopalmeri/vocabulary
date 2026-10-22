@@ -37,7 +37,7 @@ The portable release executable is `target\release\worddock.exe`; no installer i
 
 Sample import files: [`samples/sample_vocabulary.csv`](samples/sample_vocabulary.csv) and [`samples/sample_vocabulary.json`](samples/sample_vocabulary.json).
 
-Optional English collections adapted from public Wikipedia glossaries are in [`vocabularies/`](vocabularies/) (computer science, artificial intelligence, philosophy). Definitions retain attribution in each CSV source field. Wikipedia text is available under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/); these CSVs are community-maintained imports, not book excerpts or an official glossary edition. [`ThinkingFastAndSlow.csv`](vocabularies/ThinkingFastAndSlow.csv) is a short study set of words and phrases with original Spanish definitions and English examples, not text copied from the book. Import them through Manage collections.
+Optional English collections adapted from public Wikipedia glossaries are in [`vocabularies/`](vocabularies/) (computer science, artificial intelligence, philosophy). Definitions retain attribution in each CSV source field. Wikipedia text is available under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/); these CSVs are community-maintained imports, not book excerpts or an official glossary edition. [`ThinkingFastAndSlow.csv`](vocabularies/ThinkingFastAndSlow.csv) is a 613-entry study set of words and phrases grouped by book topic, with contextual Spanish translations and study examples, not text copied from the book. Import them through Manage collections.
 
 ## Idle measurement
 
