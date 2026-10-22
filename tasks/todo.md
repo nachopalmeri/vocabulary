@@ -9,3 +9,18 @@
 - [x] Test live one-minute rotation, card minimize/restore, and Show more opening full details.
 - [x] Confirm no stale process was active, launch the final release on the normal profile, and leave Settings plus the card open.
 - [x] Visually inspect short and long entries at the available 100% desktop scale; 125/150/200% use automated measurement/layout tests only.
+
+# Clothesline and Rust learning guide follow-up
+
+- [x] Replace native rectangle controls with GDI paper/image/file cards, clips, sagging rope, layered opacity, edge reveal, click-through backdrop, and eased tuck animation.
+- [x] Add text, DIB/DIBV5 image, and CF_HDROP file-reference clipboard items; restore the copied format on click.
+- [x] Protect shelf metadata and copied image media with current-user DPAPI; honor Windows' private clipboard monitoring marker.
+- [x] Verify DIB bounds/render path, item serialization, glossary CSV import validation, fmt, strict Clippy, tests, and release build.
+- [x] Normalize DIB stride, top-down rows, and alpha before rendering; screenshot thumbnails no longer show black stripes.
+- [x] Test clipboard image capture and thumbnail rendering on the desktop.
+- [ ] Test a copied multi-file bundle, file restore, and clipboard persistence after restart.
+- [ ] Add rich HTML/RTF preservation and drag-and-drop only after the text/image/file shelf behavior is visually approved.
+- [x] Create the WordDock Rust/architecture learning guide and two source SVGs in the UADE Obsidian project folder.
+- [x] Redesign the shelf to three compact cards with a small header, paging, click-through canvas, and a 110 ms alpha fade.
+- [x] Import the 22-entry "Thinking, Fast and Slow" study collection and select it for rotation.
+- [ ] Verify launch-at-login through an actual sign-out/sign-in or reboot.

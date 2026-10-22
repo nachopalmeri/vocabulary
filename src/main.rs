@@ -93,6 +93,7 @@ fn run() -> Result<(), String> {
         ui::details::class(),
         ui::import::class(),
         crate::clothesline::class(),
+        crate::clothesline::edge_class(),
     ] {
         if !ui::register_class(&spec, instance) {
             unsafe {
@@ -146,6 +147,7 @@ fn run() -> Result<(), String> {
         }
         return Ok(());
     }
+    crate::clothesline::install_edge_trigger(&mut app);
     // Card controls hotkey (Ctrl+Shift+Space).
     if unsafe {
         windows::Win32::UI::Input::KeyboardAndMouse::RegisterHotKey(

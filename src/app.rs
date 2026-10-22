@@ -92,7 +92,8 @@ pub struct App {
     pub details_hwnd: Option<HWND>,
     pub import_hwnd: Option<HWND>,
     pub clothesline_hwnd: Option<HWND>,
-    pub clothesline_items: Vec<String>,
+    pub clothesline_edge_hwnd: Option<HWND>,
+    pub clothesline_items: Vec<crate::clothesline::ClipboardItem>,
     pub pending_import: Option<ImportReport>,
     pub pending_import_target: Option<String>,
     pub notice: Option<(String, bool)>,
@@ -127,10 +128,49 @@ impl App {
             .fatal
             .clone()
             .or_else(|| config_load.fatal.clone());
-        let clothesline_items = std::fs::read_to_string(paths.root.join("clothesline.json"))
-            .ok()
-            .and_then(|s| serde_json::from_str::<Vec<String>>(&s).ok())
+        let clothesline_path = paths.root.join("clothesline.json");
+        let clothesline_bytes = std::fs::read(&clothesline_path).ok().and_then(|bytes| {
+            if bytes.starts_with(b"WDCH1") {
+                win::unprotect_for_user(&bytes[5..])
+            } else {
+                // One-time migration from the earlier unencrypted JSON scaffold.
+                Some(bytes)
+            }
+        });
+        let clothesline_items = clothesline_bytes
+            .as_deref()
+            .and_then(|bytes| {
+                serde_json::from_slice::<Vec<crate::clothesline::ClipboardItem>>(bytes).ok()
+            })
+            .or_else(|| {
+                clothesline_bytes
+                    .as_deref()
+                    .and_then(|bytes| serde_json::from_slice::<Vec<String>>(bytes).ok())
+                    .map(|items| {
+                        items
+                            .into_iter()
+                            .map(|text| {
+                                if std::path::Path::new(&text).exists() {
+                                    crate::clothesline::ClipboardItem::Files(vec![text])
+                                } else {
+                                    crate::clothesline::ClipboardItem::Text(text)
+                                }
+                            })
+                            .collect()
+                    })
+            })
             .unwrap_or_default();
+        let clothesline_items = clothesline_items
+            .into_iter()
+            .map(|item| match item {
+                crate::clothesline::ClipboardItem::Text(path)
+                    if std::path::Path::new(&path).is_file() =>
+                {
+                    crate::clothesline::ClipboardItem::Files(vec![path])
+                }
+                item => item,
+            })
+            .collect();
         let mut app = App {
             paths,
             config,
@@ -147,6 +187,7 @@ impl App {
             details_hwnd: None,
             import_hwnd: None,
             clothesline_hwnd: None,
+            clothesline_edge_hwnd: None,
             clothesline_items,
             pending_import: None,
             pending_import_target: None,
@@ -534,8 +575,8 @@ impl App {
     }
 
     pub fn on_clipboard_update(&mut self) {
-        if let Some(text) = win::clipboard_text() {
-            crate::clothesline::push_item(self, text);
+        if let Some(payload) = win::clipboard_payload() {
+            crate::clothesline::push_payload(self, payload);
         }
     }
 
@@ -896,6 +937,8 @@ impl App {
     }
 
     pub fn quit(&mut self) {
+        crate::clothesline::remove_edge_trigger(self);
+        crate::clothesline::close(self);
         self.remember_card_position();
         self.save_config();
         self.stop_timer();

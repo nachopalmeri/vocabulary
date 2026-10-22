@@ -982,33 +982,107 @@ pub fn pick_color(owner: HWND, initial: u32) -> Option<u32> {
     if ok { Some(cc.rgbResult.0) } else { None }
 }
 
-pub fn clipboard_text() -> Option<String> {
+pub enum ClipboardPayload {
+    Text(String),
+    Image { format: u32, bytes: Vec<u8> },
+    Files(Vec<String>),
+}
+
+pub fn clipboard_payload() -> Option<ClipboardPayload> {
     use std::os::windows::ffi::OsStringExt;
-    use windows::Win32::Foundation::HGLOBAL;
-    use windows::Win32::System::DataExchange::{CloseClipboard, GetClipboardData, OpenClipboard};
+    use windows::Win32::System::DataExchange::{
+        CloseClipboard, GetClipboardData, IsClipboardFormatAvailable, OpenClipboard,
+        RegisterClipboardFormatW,
+    };
+    use windows::Win32::UI::Shell::{DragQueryFileW, HDROP};
     unsafe {
         if OpenClipboard(None).is_err() {
             return None;
         }
+        // Respect the Windows privacy marker used by password managers and
+        // other applications that explicitly prohibit clipboard monitoring.
+        let private_format = RegisterClipboardFormatW(windows::core::w!(
+            "ExcludeClipboardContentFromMonitorProcessing"
+        ));
+        if private_format != 0 && IsClipboardFormatAvailable(private_format).is_ok() {
+            let _ = CloseClipboard();
+            return None;
+        }
+
+        // Keep file references, not duplicate copies of files.
+        if IsClipboardFormatAvailable(15).is_ok() // CF_HDROP
+            && let Ok(handle) = GetClipboardData(15)
+        {
+            let drop = HDROP(handle.0);
+            let count = DragQueryFileW(drop, u32::MAX, None) as usize;
+            if count > 0 && count <= 64 {
+                let mut paths = Vec::with_capacity(count);
+                for index in 0..count {
+                    let len = DragQueryFileW(drop, index as u32, None) as usize;
+                    if len == 0 || len > 32767 {
+                        continue;
+                    }
+                    let mut buffer = vec![0u16; len + 1];
+                    let written = DragQueryFileW(drop, index as u32, Some(&mut buffer));
+                    paths.push(
+                        std::ffi::OsString::from_wide(&buffer[..written as usize])
+                            .to_string_lossy()
+                            .into_owned(),
+                    );
+                }
+                if !paths.is_empty() {
+                    let _ = CloseClipboard();
+                    return Some(ClipboardPayload::Files(paths));
+                }
+            }
+        }
+
+        // Screenshot tools and image editors usually publish one of these DIB formats.
+        for format in [17u32, 8u32] {
+            // CF_DIBV5, CF_DIB
+            if IsClipboardFormatAvailable(format).is_ok()
+                && let Ok(handle) = GetClipboardData(format)
+            {
+                let global = windows::Win32::Foundation::HGLOBAL(handle.0);
+                let size = windows::Win32::System::Memory::GlobalSize(global);
+                if size > 40 && size <= 32 * 1024 * 1024 {
+                    let ptr = windows::Win32::System::Memory::GlobalLock(global);
+                    if !ptr.is_null() {
+                        let bytes = std::slice::from_raw_parts(ptr as *const u8, size).to_vec();
+                        let _ = windows::Win32::System::Memory::GlobalUnlock(global);
+                        let _ = CloseClipboard();
+                        return Some(ClipboardPayload::Image { format, bytes });
+                    }
+                }
+            }
+        }
+
         let handle = GetClipboardData(13).ok();
         let result = handle.and_then(|h| {
-            let ptr = windows::Win32::System::Memory::GlobalLock(
-                windows::Win32::Foundation::HGLOBAL(h.0),
-            );
+            let global = windows::Win32::Foundation::HGLOBAL(h.0);
+            let size = windows::Win32::System::Memory::GlobalSize(global);
+            if !(2..=20 * 1024 * 1024).contains(&size) {
+                return None;
+            }
+            let ptr = windows::Win32::System::Memory::GlobalLock(global);
             if ptr.is_null() {
                 None
             } else {
                 let mut len = 0usize;
                 let p = ptr as *const u16;
-                while *p.add(len) != 0 {
+                let max = size / 2;
+                while len < max && *p.add(len) != 0 {
                     len += 1;
                 }
-                let slice = std::slice::from_raw_parts(p, len);
-                let os = std::ffi::OsString::from_wide(slice);
-                let _ = windows::Win32::System::Memory::GlobalUnlock(
-                    windows::Win32::Foundation::HGLOBAL(h.0),
-                );
-                os.to_str().map(|s| s.to_string())
+                let result = if len == max {
+                    None
+                } else {
+                    Some(std::ffi::OsString::from_wide(std::slice::from_raw_parts(
+                        p, len,
+                    )))
+                };
+                let _ = windows::Win32::System::Memory::GlobalUnlock(global);
+                result.and_then(|os| os.to_str().map(|s| ClipboardPayload::Text(s.to_string())))
             }
         });
         let _ = CloseClipboard();
@@ -1016,8 +1090,82 @@ pub fn clipboard_text() -> Option<String> {
     }
 }
 
+/// Protect small local app data with the current Windows account (DPAPI).
+pub fn protect_for_user(input: &[u8]) -> Option<Vec<u8>> {
+    use windows::Win32::Foundation::{HLOCAL, LocalFree};
+    use windows::Win32::Security::Cryptography::{
+        CRYPT_INTEGER_BLOB, CRYPTPROTECT_UI_FORBIDDEN, CryptProtectData,
+    };
+    if input.len() > u32::MAX as usize {
+        return None;
+    }
+    let blob = CRYPT_INTEGER_BLOB {
+        cbData: input.len() as u32,
+        pbData: input.as_ptr() as *mut u8,
+    };
+    let mut output = CRYPT_INTEGER_BLOB::default();
+    if unsafe {
+        CryptProtectData(
+            &blob,
+            windows::core::PCWSTR::null(),
+            None,
+            None,
+            None,
+            CRYPTPROTECT_UI_FORBIDDEN,
+            &mut output,
+        )
+    }
+    .is_err()
+    {
+        return None;
+    }
+    let result =
+        unsafe { std::slice::from_raw_parts(output.pbData, output.cbData as usize) }.to_vec();
+    unsafe {
+        let _ = LocalFree(Some(HLOCAL(output.pbData as *mut c_void)));
+    }
+    Some(result)
+}
+
+/// Reverse `protect_for_user`; data cannot be decrypted by another Windows user.
+pub fn unprotect_for_user(input: &[u8]) -> Option<Vec<u8>> {
+    use windows::Win32::Foundation::{HLOCAL, LocalFree};
+    use windows::Win32::Security::Cryptography::{
+        CRYPT_INTEGER_BLOB, CRYPTPROTECT_UI_FORBIDDEN, CryptUnprotectData,
+    };
+    if input.len() > u32::MAX as usize {
+        return None;
+    }
+    let blob = CRYPT_INTEGER_BLOB {
+        cbData: input.len() as u32,
+        pbData: input.as_ptr() as *mut u8,
+    };
+    let mut output = CRYPT_INTEGER_BLOB::default();
+    if unsafe {
+        CryptUnprotectData(
+            &blob,
+            None,
+            None,
+            None,
+            None,
+            CRYPTPROTECT_UI_FORBIDDEN,
+            &mut output,
+        )
+    }
+    .is_err()
+    {
+        return None;
+    }
+    let result =
+        unsafe { std::slice::from_raw_parts(output.pbData, output.cbData as usize) }.to_vec();
+    unsafe {
+        let _ = LocalFree(Some(HLOCAL(output.pbData as *mut c_void)));
+    }
+    Some(result)
+}
+
 pub fn set_clipboard_text(text: &str) -> bool {
-    use windows::Win32::Foundation::HGLOBAL;
+    use windows::Win32::Foundation::{HANDLE, HGLOBAL};
     use windows::Win32::System::DataExchange::{
         CloseClipboard, EmptyClipboard, OpenClipboard, SetClipboardData,
     };
@@ -1050,6 +1198,96 @@ pub fn set_clipboard_text(text: &str) -> bool {
             windows::Win32::System::Memory::GlobalUnlock(windows::Win32::Foundation::HGLOBAL(h.0));
         let ok = SetClipboardData(13, Some(windows::Win32::Foundation::HANDLE(h.0))).is_ok();
         let _ = CloseClipboard();
+        ok
+    }
+}
+
+pub fn set_clipboard_image(format: u32, dib: &[u8]) -> bool {
+    use windows::Win32::Foundation::{GlobalFree, HANDLE, HGLOBAL};
+    use windows::Win32::System::DataExchange::{
+        CloseClipboard, EmptyClipboard, OpenClipboard, SetClipboardData,
+    };
+    use windows::Win32::System::Memory::{GMEM_MOVEABLE, GlobalAlloc, GlobalLock, GlobalUnlock};
+    if dib.is_empty() || dib.len() > 32 * 1024 * 1024 {
+        return false;
+    }
+    unsafe {
+        let h = match GlobalAlloc(GMEM_MOVEABLE, dib.len()) {
+            Ok(h) => h,
+            Err(_) => return false,
+        };
+        let ptr = GlobalLock(h);
+        if ptr.is_null() {
+            let _ = GlobalFree(Some(h));
+            return false;
+        }
+        std::ptr::copy_nonoverlapping(dib.as_ptr(), ptr as *mut u8, dib.len());
+        let _ = GlobalUnlock(h);
+        if OpenClipboard(None).is_err() {
+            let _ = GlobalFree(Some(h));
+            return false;
+        }
+        let _ = EmptyClipboard();
+        let ok = SetClipboardData(format, Some(HANDLE(h.0))).is_ok();
+        let _ = CloseClipboard();
+        if !ok {
+            let _ = GlobalFree(Some(h));
+        }
+        ok
+    }
+}
+
+pub fn set_clipboard_files(paths: &[String]) -> bool {
+    use windows::Win32::Foundation::{GlobalFree, HANDLE, HGLOBAL};
+    use windows::Win32::System::DataExchange::{
+        CloseClipboard, EmptyClipboard, OpenClipboard, SetClipboardData,
+    };
+    use windows::Win32::System::Memory::{GMEM_MOVEABLE, GlobalAlloc, GlobalLock, GlobalUnlock};
+    if paths.is_empty() || paths.len() > 256 {
+        return false;
+    }
+    // DROPFILES header: byte offset to the double-NUL Unicode path list, POINT(0,0),
+    // fNC=false, fWide=true.
+    let mut bytes = Vec::with_capacity(
+        20 + paths
+            .iter()
+            .map(|p| (p.encode_utf16().count() + 1) * 2)
+            .sum::<usize>()
+            + 2,
+    );
+    bytes.extend_from_slice(&20u32.to_le_bytes());
+    bytes.extend_from_slice(&0i32.to_le_bytes());
+    bytes.extend_from_slice(&0i32.to_le_bytes());
+    bytes.extend_from_slice(&0u32.to_le_bytes());
+    bytes.extend_from_slice(&1u32.to_le_bytes());
+    for path in paths {
+        for unit in path.encode_utf16().chain(std::iter::once(0)) {
+            bytes.extend_from_slice(&unit.to_le_bytes());
+        }
+    }
+    bytes.extend_from_slice(&[0, 0]);
+    unsafe {
+        let h = match GlobalAlloc(GMEM_MOVEABLE, bytes.len()) {
+            Ok(h) => h,
+            Err(_) => return false,
+        };
+        let ptr = GlobalLock(h);
+        if ptr.is_null() {
+            let _ = GlobalFree(Some(h));
+            return false;
+        }
+        std::ptr::copy_nonoverlapping(bytes.as_ptr(), ptr as *mut u8, bytes.len());
+        let _ = GlobalUnlock(h);
+        if OpenClipboard(None).is_err() {
+            let _ = GlobalFree(Some(h));
+            return false;
+        }
+        let _ = EmptyClipboard();
+        let ok = SetClipboardData(15, Some(HANDLE(h.0))).is_ok(); // CF_HDROP
+        let _ = CloseClipboard();
+        if !ok {
+            let _ = GlobalFree(Some(h));
+        }
         ok
     }
 }
@@ -1130,4 +1368,18 @@ pub fn load_cursor(identifier: PCWSTR) -> windows::Win32::UI::WindowsAndMessagin
 pub fn last_error() -> u32 {
     // SAFETY: per-thread state, always readable.
     unsafe { windows::Win32::Foundation::GetLastError().0 }
+}
+
+#[cfg(test)]
+mod dpapi_tests {
+    #[test]
+    fn protected_local_history_round_trips_for_current_user() {
+        let plain = b"clipboard history stays on this Windows account";
+        let encrypted = super::protect_for_user(plain).expect("DPAPI encryption should succeed");
+        assert_ne!(encrypted, plain);
+        assert_eq!(
+            super::unprotect_for_user(&encrypted).as_deref(),
+            Some(plain.as_slice())
+        );
+    }
 }

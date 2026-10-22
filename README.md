@@ -28,6 +28,7 @@ The portable release executable is `target\release\worddock.exe`; no installer i
 ## Use
 
 - Left-click the tray icon to show/hide the card; right-click for navigation, pause, learned/review, settings, collection management, and Exit.
+- Clothesline opens from the tray menu or `Home`; resting the pointer at the top edge also reveals it. It is a compact three-card shelf placed below the browser tab strip, fades in/out without taking focus, and tucks away after the pointer leaves. Use `<` / `>` to page through up to ten items. Click a paper card to copy its content; right-click a card to copy, remove it, or clear the shelf. Image thumbnails are normalized for correct stride, orientation, and aspect ratio.
 - Drag the card to reposition it. The tray Exit command terminates WordDock.
 - Settings control the 1–1440 minute interval, sequential/shuffled order, active collection, theme, font size, card width, topmost behavior, learned filtering, and optional launch-at-login (off by default).
 - Manage collections to add, rename, or delete collections and entries. The manager also imports and exports CSV/JSON.
@@ -36,7 +37,7 @@ The portable release executable is `target\release\worddock.exe`; no installer i
 
 Sample import files: [`samples/sample_vocabulary.csv`](samples/sample_vocabulary.csv) and [`samples/sample_vocabulary.json`](samples/sample_vocabulary.json).
 
-Optional vocabulary collections extracted from public Wikipedia glossaries are in [`vocabularies/`](vocabularies/) (ComputerScience, ArtificialIntelligence, Philosophy). Import them through Manage collections.
+Optional English collections adapted from public Wikipedia glossaries are in [`vocabularies/`](vocabularies/) (computer science, artificial intelligence, philosophy). Definitions retain attribution in each CSV source field. Wikipedia text is available under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/); these CSVs are community-maintained imports, not book excerpts or an official glossary edition. [`ThinkingFastAndSlow.csv`](vocabularies/ThinkingFastAndSlow.csv) is a short study set of words and phrases with original Spanish definitions and English examples, not text copied from the book. Import them through Manage collections.
 
 ## Idle measurement
 
@@ -59,3 +60,5 @@ Optional vocabulary collections extracted from public Wikipedia glossaries are i
 ## Scope and limitations
 
 WordDock has no network access, accounts, telemetry, background polling, embedded browser, Explorer injection, cloud sync, updater, or installer. Standard Windows push buttons retain system theme styling; dark backgrounds and text are custom-painted. Performance figures must be measured on the target system using the included script.
+
+Clothesline keeps up to 10 distinct text, DIB screenshot/image, or copied-file-path items. Image bytes and history metadata are encrypted with Windows DPAPI for the current account; copied files remain references to their original paths and are never duplicated. It respects Windows' `ExcludeClipboardContentFromMonitorProcessing` privacy marker. HTML/RTF preservation, drag-and-drop, screenshot capture interception, and screenshot-folder watching are not implemented. The top-edge trigger currently targets the primary monitor.

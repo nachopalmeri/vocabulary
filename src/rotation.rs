@@ -311,6 +311,34 @@ mod tests {
     }
 
     #[test]
+    fn selected_collections_scope_eligible_ids_and_namespace_them() {
+        let mut rng = Rng::new(91);
+        let first = Collection::new("First", &mut rng);
+        let mut second = Collection::new("Second", &mut rng);
+        let mut first = first;
+        first
+            .entries
+            .push(Entry::new("first term", "meaning", &mut rng));
+        second
+            .entries
+            .push(Entry::new("second term", "meaning", &mut rng));
+        let first_id = first.id.clone();
+        let first_entry = first.entries[0].id.clone();
+        let library = crate::model::Library {
+            collections: vec![first, second],
+            ..crate::model::Library::default()
+        };
+        let config = Config {
+            selected_collections: vec![first_id.clone()],
+            ..Config::default()
+        };
+        assert_eq!(
+            eligible_ids_in_collections(&library, &config),
+            vec![format!("{first_id}::{first_entry}")]
+        );
+    }
+
+    #[test]
     fn retain_current_drops_stale_selection() {
         let mut rng = Rng::new(4);
         let mut rotation = Rotation::new(Order::Sequential);

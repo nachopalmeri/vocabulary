@@ -168,7 +168,7 @@ pub fn show_menu(
         add("Settings…", CMD_SETTINGS);
         add("Manage collections…", CMD_COLLECTIONS);
         separator();
-        add("Clothesline (clipboard history)", CMD_CLOTHESLINE);
+        add("Tendedero (portapapeles)", CMD_CLOTHESLINE);
         separator();
         add("Exit", CMD_EXIT);
 

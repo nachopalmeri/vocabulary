@@ -1046,6 +1046,37 @@ mod tests {
     }
 
     #[test]
+    fn bundled_glossaries_parse_as_complete_attributed_vocabularies() {
+        let empty = HashSet::new();
+        for name in [
+            "ComputerScience.csv",
+            "ArtificialIntelligence.csv",
+            "Philosophy.csv",
+        ] {
+            let path = Path::new("vocabularies").join(name);
+            let report = read_and_parse(&path, &empty);
+            assert!(report.error.is_none(), "{name}: {:?}", report.error);
+            assert!(
+                report.ready_count() >= 200,
+                "{name}: {}",
+                report.ready_count()
+            );
+            assert!(report.rows.iter().all(|row| !row.source.trim().is_empty()));
+        }
+    }
+
+    #[test]
+    fn thinking_fast_and_slow_study_set_is_importable() {
+        let report = read_and_parse(
+            Path::new("vocabularies/ThinkingFastAndSlow.csv"),
+            &HashSet::new(),
+        );
+        assert!(report.error.is_none(), "{:?}", report.error);
+        assert_eq!(report.ready_count(), 22);
+        assert!(report.rows.iter().all(|row| !row.source.trim().is_empty()));
+    }
+
+    #[test]
     fn csv_parser_skips_blank_lines() {
         let csv = "word,meaning\n\nadroit,Hábil\n\n";
         let report = p(csv, &HashSet::new());
