@@ -41,4 +41,4 @@
 - [x] Move the manual test checklist and idle-measurement procedure to `docs/manual-testing.md`.
 - [x] Replace the plain `Home` shelf hotkey with `Ctrl+Alt+Space`; a plain global hotkey swallowed Home in every app.
 - [x] Re-run fmt, strict Clippy, 62 tests, and the release build after the hotkey change.
-- [x] Re-check `Ctrl+Alt+Space`, normal `Home` behavior in Notepad, and the collections filter on the release build.
+- [x] Re-check `Ctrl+Alt+Space` and normal `Home` behavior in Notepad on the release build; the filter was visually verified on the debug build and is covered by tests.
