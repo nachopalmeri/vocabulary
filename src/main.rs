@@ -19,6 +19,7 @@ mod csvio;
 mod model;
 mod rotation;
 mod samples;
+mod speech;
 mod startup;
 mod store;
 mod theme;

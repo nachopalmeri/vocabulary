@@ -106,6 +106,7 @@ pub mod id {
     pub const ENTRY_EXPORT_JSON: u16 = 52;
     pub const ENTRY_HEADING: u16 = 53;
     pub const ENTRY_SUMMARY: u16 = 54;
+    pub const ENTRY_FILTER: u16 = 55;
 
     // Entry editor
     pub const FIELD_WORD: u16 = 70;
@@ -135,6 +136,7 @@ pub mod id {
 
     // Details
     pub const DETAIL_TOGGLE: u16 = 112;
+    pub const DETAIL_SPEAK: u16 = 113;
     pub const POSITION_0: u16 = 140;
     pub const POSITION_1: u16 = 141;
     pub const POSITION_2: u16 = 142;

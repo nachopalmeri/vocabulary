@@ -26,3 +26,10 @@
 - [x] Expand the study collection to the full 613-entry list and re-select it for rotation.
 - [x] Replace every template study example with a natural, topic-specific sentence.
 - [x] Check launch-at-login entry: `Run` points at the release, and the app was already running after the next sign-in (PID 13072, 09:46).
+
+# Study workflow features
+
+- [x] Add a live filter to Manage collections across word, meaning, and example, with match count and learned percentage.
+- [x] Add `Word details…` to the tray menu and a `Pronounce` button backed by Windows SAPI, preferring an installed en-US voice.
+- [x] Verify the filter on the 619-entry collection (2 matches for `wary`) and the details/pronounce layout on the debug build.
+- [x] Run `cargo fmt --check`, strict Clippy, tests, and the release build.

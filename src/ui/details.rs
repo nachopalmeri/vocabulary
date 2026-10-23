@@ -21,6 +21,7 @@ struct State {
     app: *mut App,
     chrome: Chrome,
     entry_id: Option<String>,
+    voice: Option<crate::speech::Voice>,
 }
 
 pub fn class() -> ui::ClassSpec {
@@ -46,6 +47,7 @@ pub fn open(app: &mut App) {
         app: app as *mut App,
         chrome: Chrome::new(app.config.theme, dpi),
         entry_id: app.current_entry().map(|e| e.id.clone()),
+        voice: None,
     });
     let pointer = Box::into_raw(state);
     if let Some(hwnd) = ui::create_dialog_window(
@@ -122,6 +124,7 @@ pub fn refresh(app: &mut App, hwnd: HWND) {
     } else {
         ui::set_enabled(hwnd, id::DETAIL_TOGGLE, false);
     }
+    ui::set_enabled(hwnd, id::DETAIL_SPEAK, app.current_entry().is_some());
 }
 
 fn make_controls(hwnd: HWND, state: &State) {
@@ -144,6 +147,16 @@ fn make_controls(hwnd: HWND, state: &State) {
         ui::STYLE_BUTTON,
         id::DETAIL_TOGGLE,
         rect(14, 252, 132, 28),
+        dpi,
+        font,
+    );
+    ui::create_child(
+        hwnd,
+        "BUTTON",
+        "Pronounce",
+        ui::STYLE_BUTTON,
+        id::DETAIL_SPEAK,
+        rect(158, 252, 110, 28),
         dpi,
         font,
     );
@@ -178,6 +191,26 @@ pub extern "system" fn proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam: LPARAM
             make_controls(hwnd, unsafe { &*p });
             if let Some(app) = unsafe { (*p).app.as_mut() } {
                 refresh(app, hwnd);
+            }
+            LRESULT(0)
+        }
+        WM_COMMAND if ui::command_id(wparam) == id::DETAIL_SPEAK => {
+            let word = unsafe { (*p).app.as_ref() }
+                .and_then(|app| app.current_entry())
+                .map(|entry| entry.word.clone());
+            if let Some(word) = word {
+                let state = unsafe { &mut *p };
+                if state.voice.is_none() {
+                    match crate::speech::Voice::new() {
+                        Ok(voice) => state.voice = Some(voice),
+                        Err(error) => win::error(hwnd, &error, "WordDock"),
+                    }
+                }
+                if let Some(voice) = &state.voice {
+                    if let Err(error) = voice.speak(&word) {
+                        win::error(hwnd, &error, "WordDock");
+                    }
+                }
             }
             LRESULT(0)
         }

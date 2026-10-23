@@ -27,11 +27,12 @@ The portable release executable is `target\release\worddock.exe`; no installer i
 
 ## Use
 
-- Left-click the tray icon to show/hide the card; right-click for navigation, pause, learned/review, settings, collection management, and Exit.
+- Left-click the tray icon to show/hide the card; right-click for navigation, pause, learned/review, word details, settings, collection management, and Exit.
 - Clothesline opens from the tray menu or `Home`; resting the pointer at the top edge also reveals it. It is a compact three-card shelf placed below the browser tab strip, fades in/out without taking focus, and tucks away after the pointer leaves. Use `<` / `>` to page through up to ten items. Click a paper card to copy its content; right-click a card to copy, remove it, or clear the shelf. Image thumbnails are normalized for correct stride, orientation, and aspect ratio.
 - Drag the card to reposition it. The tray Exit command terminates WordDock.
 - Settings control the 1–1440 minute interval, sequential/shuffled order, active collection, theme, font size, card width, topmost behavior, learned filtering, and optional launch-at-login (off by default).
-- Manage collections to add, rename, or delete collections and entries. The manager also imports and exports CSV/JSON.
+- Manage collections to add, rename, or delete collections and entries. The manager also imports and exports CSV/JSON. Its entry list has a live filter over words, meanings, and examples, and reports how many entries match plus the learned percentage.
+- Word details shows the full meaning, example, source, and languages. **Pronounce** reads the word aloud with the built-in Windows speech engine, preferring an installed English voice.
 - Imports are limited to 10 MiB and 20,000 data rows. CSV accepts a header or positional columns (`word, meaning, example, source, source_language, target_language, learned`). Duplicate words are case/whitespace-insensitive and skipped by default. Exported CSV is UTF-8 with BOM for spreadsheet compatibility; JSON uses UTF-8.
 - Data is stored in `%LOCALAPPDATA%\WordDock` (`config.json`, `library.json`, `backup\`, and `recovery\`). Writes replace atomically and preserve the prior file as a backup. Corrupt files are quarantined; a file from a newer schema prevents startup without being overwritten.
 
@@ -50,6 +51,8 @@ Optional English collections adapted from public Wikipedia glossaries are in [`v
 - Tray click toggles the card; tray Exit terminates; card close button hides it without stealing focus.
 - Next/previous, pause/resume, mark learned, review again, and learned filtering.
 - Create/rename/delete a collection; add/edit/delete entries; select an active collection.
+- In Manage collections, filter by a word, a Spanish meaning, and part of an example; confirm the "Showing N of M" count and that add/edit/delete still target the filtered row.
+- Open Word details from the tray and click Pronounce; confirm the word is spoken and a second click restarts it instead of queueing.
 - Import both sample formats; inspect validation/duplicate preview; test cancel and export both formats.
 - Restart and verify saved settings, collection, learned state, and card position.
 - Move the card between monitors with different DPI scales; disconnect/reconnect a monitor.
@@ -59,6 +62,6 @@ Optional English collections adapted from public Wikipedia glossaries are in [`v
 
 ## Scope and limitations
 
-WordDock has no network access, accounts, telemetry, background polling, embedded browser, Explorer injection, cloud sync, updater, or installer. Standard Windows push buttons retain system theme styling; dark backgrounds and text are custom-painted. Performance figures must be measured on the target system using the included script.
+WordDock has no network access, accounts, telemetry, background polling, embedded browser, Explorer injection, cloud sync, updater, or installer. Standard Windows push buttons retain system theme styling; dark backgrounds and text are custom-painted. Pronunciation uses the offline Windows SAPI voices already installed on the machine; it never contacts a service. Performance figures must be measured on the target system using the included script.
 
 Clothesline keeps up to 10 distinct text, DIB screenshot/image, or copied-file-path items. Image bytes and history metadata are encrypted with Windows DPAPI for the current account; copied files remain references to their original paths and are never duplicated. It respects Windows' `ExcludeClipboardContentFromMonitorProcessing` privacy marker. HTML/RTF preservation, drag-and-drop, screenshot capture interception, and screenshot-folder watching are not implemented. The top-edge trigger currently targets the primary monitor.

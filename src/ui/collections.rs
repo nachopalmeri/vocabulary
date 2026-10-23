@@ -180,9 +180,30 @@ fn create_controls(hwnd: HWND, state: &State) {
         id::ENTRY_HEADING,
         294,
         12,
-        400,
+        58,
         20,
     );
+    if let Some(filter) = ui::create_child(
+        hwnd,
+        "EDIT",
+        "",
+        ui::STYLE_EDIT,
+        id::ENTRY_FILTER,
+        rect(356, 8, 370, 24),
+        dpi,
+        font,
+    ) {
+        let cue = win::wide("Filter word, meaning, or example…");
+        // EM_SETCUEBANNER: native placeholder text, drawn while the field is empty.
+        unsafe {
+            windows::Win32::UI::WindowsAndMessaging::SendMessageW(
+                filter,
+                0x1501,
+                Some(windows::Win32::Foundation::WPARAM(0)),
+                Some(windows::Win32::Foundation::LPARAM(cue.as_ptr() as isize)),
+            );
+        }
+    }
     create(
         "LISTBOX",
         "",
@@ -316,9 +337,15 @@ pub fn repopulate(app: &mut App, hwnd: HWND) {
             .as_deref()
             .and_then(|id| app.library.collection(id))
         {
+            let needle = win::control_text(hwnd, id::ENTRY_FILTER).to_lowercase();
+            let mut shown = 0usize;
             for entry in &collection.entries {
+                if !needle.is_empty() && !entry_matches(entry, &needle) {
+                    continue;
+                }
                 state.entry_ids.push(entry.id.clone());
                 ui::list_add(list, &entry.summary());
+                shown += 1;
             }
             if let Some(index) = selected_entry
                 .as_ref()
@@ -326,15 +353,15 @@ pub fn repopulate(app: &mut App, hwnd: HWND) {
             {
                 ui::list_select(list, Some(index));
             }
-            ui::static_text(
-                hwnd,
-                id::ENTRY_SUMMARY,
-                &format!(
-                    "{} entries · {} learned",
-                    collection.entries.len(),
-                    collection.learned_count()
-                ),
-            );
+            let total = collection.entries.len();
+            let learned = collection.learned_count();
+            let percent = (learned * 100).checked_div(total).unwrap_or(0);
+            let summary = if needle.is_empty() {
+                format!("{total} entries · {learned} learned ({percent}%)")
+            } else {
+                format!("Showing {shown} of {total} · {learned} learned ({percent}%)")
+            };
+            ui::static_text(hwnd, id::ENTRY_SUMMARY, &summary);
         } else {
             ui::static_text(
                 hwnd,
@@ -354,6 +381,13 @@ fn selected_entry(state: &State, hwnd: HWND) -> Option<String> {
     win::child(hwnd, id::ENTRY_LIST)
         .and_then(ui::list_selection)
         .and_then(|index| state.entry_ids.get(index).cloned())
+}
+
+/// Case-insensitive match across the fields a learner is likely to type.
+fn entry_matches(entry: &Entry, needle_lower: &str) -> bool {
+    entry.word.to_lowercase().contains(needle_lower)
+        || entry.meaning.to_lowercase().contains(needle_lower)
+        || entry.example.to_lowercase().contains(needle_lower)
 }
 
 fn open_prompt(
@@ -944,4 +978,34 @@ fn apply_entry_fields(hwnd: HWND, entry: &mut Entry) {
     entry.source_language = ui::edit_text(hwnd, id::FIELD_SOURCE_LANG);
     entry.target_language = ui::edit_text(hwnd, id::FIELD_TARGET_LANG);
     entry.learned = win::is_checked(hwnd, id::FIELD_LEARNED);
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn entry(word: &str, meaning: &str, example: &str) -> Entry {
+        Entry {
+            word: word.to_string(),
+            meaning: meaning.to_string(),
+            example: example.to_string(),
+            ..Entry::default()
+        }
+    }
+
+    #[test]
+    fn filter_matches_words_meanings_and_examples() {
+        let item = entry("wary", "cauteloso; desconfiado", "Be wary of a forecast.");
+        assert!(entry_matches(&item, "wary"));
+        assert!(entry_matches(&item, "cauteloso"));
+        assert!(entry_matches(&item, "forecast"));
+        assert!(!entry_matches(&item, "anchoring"));
+    }
+
+    #[test]
+    fn filter_handles_accents_and_uppercase_input() {
+        let item = entry("Decisión", "Elección difícil", "Una decisión diaria.");
+        assert!(entry_matches(&item, &"DECISIÓN".to_lowercase()));
+        assert!(entry_matches(&item, &"Elección".to_lowercase()));
+    }
 }

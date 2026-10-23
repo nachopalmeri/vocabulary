@@ -28,6 +28,8 @@ windows = { version = "0.62.2", features = [
     "Win32_System_SystemInformation",
     "Win32_Storage_FileSystem",
     "Win32_System_DataExchange",
+    "Win32_System_Com",
+    "Win32_Media_Speech",
 ] }
 
 # Correctness first: no exotic flags, no unwinding tricks.

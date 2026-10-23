@@ -1035,6 +1035,7 @@ pub extern "system" fn controller_proc(
                             crate::tray::TrayCommand::TogglePause => Action::TogglePause,
                             crate::tray::TrayCommand::MarkLearned => Action::MarkLearned,
                             crate::tray::TrayCommand::ReviewAgain => Action::ReviewAgain,
+                            crate::tray::TrayCommand::Details => Action::Details,
                             crate::tray::TrayCommand::Settings => Action::Settings,
                             crate::tray::TrayCommand::Collections => Action::Collections,
                             crate::tray::TrayCommand::Clothesline => Action::Clothesline,

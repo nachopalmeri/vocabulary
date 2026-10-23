@@ -26,6 +26,7 @@ pub const CMD_SETTINGS: usize = 7;
 pub const CMD_COLLECTIONS: usize = 8;
 pub const CMD_EXIT: usize = 9;
 pub const CMD_CLOTHESLINE: usize = 10;
+pub const CMD_DETAILS: usize = 11;
 
 /// What the tray asked the application to do.
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
@@ -36,6 +37,7 @@ pub enum TrayCommand {
     TogglePause,
     MarkLearned,
     ReviewAgain,
+    Details,
     Settings,
     Collections,
     Clothesline,
@@ -163,6 +165,7 @@ pub fn show_menu(
         if has_entry {
             add("Mark as learned", CMD_MARK_LEARNED);
             add("Review again", CMD_REVIEW_AGAIN);
+            add("Word details…", CMD_DETAILS);
         }
         separator();
         add("Settings…", CMD_SETTINGS);
@@ -194,6 +197,7 @@ pub fn show_menu(
             CMD_PAUSE => Some(TrayCommand::TogglePause),
             CMD_MARK_LEARNED => Some(TrayCommand::MarkLearned),
             CMD_REVIEW_AGAIN => Some(TrayCommand::ReviewAgain),
+            CMD_DETAILS => Some(TrayCommand::Details),
             CMD_SETTINGS => Some(TrayCommand::Settings),
             CMD_COLLECTIONS => Some(TrayCommand::Collections),
             CMD_CLOTHESLINE => Some(TrayCommand::Clothesline),
