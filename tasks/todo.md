@@ -33,3 +33,12 @@
 - [x] Add `Word details…` to the tray menu and a `Pronounce` button backed by Windows SAPI, preferring an installed en-US voice.
 - [x] Verify the filter on the 619-entry collection (2 matches for `wary`) and the details/pronounce layout on the debug build.
 - [x] Run `cargo fmt --check`, strict Clippy, tests, and the release build.
+
+# Public repository polish
+
+- [x] Rewrite the README for a public open-source audience: features, requirements, build, usage, privacy, vocabularies, contributing, and license.
+- [x] Add the MIT `LICENSE` file.
+- [x] Move the manual test checklist and idle-measurement procedure to `docs/manual-testing.md`.
+- [x] Replace the plain `Home` shelf hotkey with `Ctrl+Alt+Space`; a plain global hotkey swallowed Home in every app.
+- [x] Re-run fmt, strict Clippy, 62 tests, and the release build after the hotkey change.
+- [x] Re-check `Ctrl+Alt+Space`, normal `Home` behavior in Notepad, and the collections filter on the release build.

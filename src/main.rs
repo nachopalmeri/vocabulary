@@ -168,19 +168,22 @@ fn run() -> Result<(), String> {
         );
     }
 
-    // Clothesline toggle hotkey (Home).
+    // Clothesline toggle hotkey (Ctrl+Alt+Space). A plain Home hot key would
+    // be swallowed system-wide and break caret movement in every app.
     if unsafe {
         windows::Win32::UI::Input::KeyboardAndMouse::RegisterHotKey(
             Some(controller),
             2,
-            windows::Win32::UI::Input::KeyboardAndMouse::MOD_NOREPEAT,
-            windows::Win32::UI::Input::KeyboardAndMouse::VK_HOME.0 as u32,
+            windows::Win32::UI::Input::KeyboardAndMouse::MOD_CONTROL
+                | windows::Win32::UI::Input::KeyboardAndMouse::MOD_ALT
+                | windows::Win32::UI::Input::KeyboardAndMouse::MOD_NOREPEAT,
+            windows::Win32::UI::Input::KeyboardAndMouse::VK_SPACE.0 as u32,
         )
     }
     .is_err()
     {
         app.queue_notice(
-            "Home key is unavailable for Clothesline; use the tray menu instead.",
+            "Ctrl+Alt+Space is unavailable for Clothesline; use the tray menu instead.",
             false,
         );
     }

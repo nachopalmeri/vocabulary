@@ -1,67 +1,152 @@
 # WordDock
 
-WordDock is a small, native Windows 11 vocabulary companion written in Rust and Win32. It displays one entry in a compact card above the taskbar; it is not embedded into Explorer or the taskbar. The card does not take focus, and closing it hides it while the tray app keeps running.
+**A native vocabulary card and clipboard shelf for Windows 11, built with Rust and Win32.**
 
-The first run creates a collection containing 20 original English→Spanish sample entries. They were written for WordDock and are not extracted from a book. Rename the collection for your own book or topic, then edit or replace the entries.
+WordDock lives in the notification area. It rotates entries from your own vocabulary collections in a compact card and keeps recent clipboard content on a small clothesline shelf called the **Tendedero**. Everything is native: no webview, no Explorer injection, no account, no telemetry. WordDock is open source under the MIT license.
+
+![Platform](https://img.shields.io/badge/platform-Windows%2011%20x64-0078D4)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
+> **Status:** early development. There is no installer or packaged release yet; build from source.
+
+## Features
+
+- **Vocabulary card** — rotates words and phrases from one or more collections. Choose word + meaning, word only (reveal the meaning on hover), or word + meaning + example.
+- **Study controls** — next/previous, pause, mark learned, review again, learned filtering, sequential or shuffled order, and a 1–1440 minute interval.
+- **Collections** — create, rename, and delete collections; add, edit, and delete entries; filter the entry list live across words, meanings, and examples; see match and learned counts.
+- **Pronunciation** — the details window can speak the current word with the offline Windows SAPI voice, preferring an installed English voice.
+- **Tendedero clipboard shelf** — a compact, non-activating clothesline for copied text, screenshots/images, and file references. Three cards are visible at a time, up to ten are kept. Click a card to put its content back on the clipboard; right-click to copy, remove, or clear.
+- **Native and small** — plain Win32/GDI windows, DPI-aware, multi-monitor positioning, optional always-on-top, and a single running instance. No Electron, WebView2, or embedded browser.
+- **Local-first** — no network access, accounts, telemetry, cloud sync, or background polling. Data lives in `%LOCALAPPDATA%\WordDock`; shelf history and image bytes are protected with Windows DPAPI.
+- **Your own data** — import and export CSV or JSON, with atomic writes, backups, and quarantine recovery for malformed files.
 
 ## Requirements
 
-- Windows 11 x64
-- Rust stable, MSVC target (`stable-x86_64-pc-windows-msvc`)
+- Windows 11 x64 (the tested target)
+- Rust 1.85 or newer with the MSVC target (`stable-x86_64-pc-windows-msvc`)
 - Visual Studio 2022 Build Tools with the **Desktop development with C++** workload and a Windows 10/11 SDK
 
-## Build and run
+## Build from source
 
-From this repository in PowerShell:
+```powershell
+git clone https://github.com/nachopalmeri/vocabulary.git
+cd vocabulary
+cargo build --release
+.\target\release\worddock.exe
+```
+
+`--offline` works after the first dependency fetch. The result is a standalone executable: `target\release\worddock.exe` needs no installer and can be placed anywhere.
+
+Before sending a change, run the same checks the project uses:
 
 ```powershell
 cargo fmt --check
-cargo test --offline
-cargo clippy --offline --all-targets
-cargo build --release --offline
-.
-target\release\worddock.exe
+cargo clippy --all-targets -- -D warnings
+cargo test
 ```
 
-The portable release executable is `target\release\worddock.exe`; no installer is required. Rust dependencies are locked in `Cargo.lock`.
+## First run
 
-## Use
+WordDock creates a collection with 20 original English–Spanish sample entries. It is a starting point, not a book extract: rename it, edit the entries, or import your own vocabulary through **Manage collections**.
 
-- Left-click the tray icon to show/hide the card; right-click for navigation, pause, learned/review, word details, settings, collection management, and Exit.
-- Clothesline opens from the tray menu or `Home`; resting the pointer at the top edge also reveals it. It is a compact three-card shelf placed below the browser tab strip, fades in/out without taking focus, and tucks away after the pointer leaves. Use `<` / `>` to page through up to ten items. Click a paper card to copy its content; right-click a card to copy, remove it, or clear the shelf. Image thumbnails are normalized for correct stride, orientation, and aspect ratio.
-- Drag the card to reposition it. The tray Exit command terminates WordDock.
-- Settings control the 1–1440 minute interval, sequential/shuffled order, active collection, theme, font size, card width, topmost behavior, learned filtering, and optional launch-at-login (off by default).
-- Manage collections to add, rename, or delete collections and entries. The manager also imports and exports CSV/JSON. Its entry list has a live filter over words, meanings, and examples, and reports how many entries match plus the learned percentage.
-- Word details shows the full meaning, example, source, and languages. **Pronounce** reads the word aloud with the built-in Windows speech engine, preferring an installed English voice.
-- Imports are limited to 10 MiB and 20,000 data rows. CSV accepts a header or positional columns (`word, meaning, example, source, source_language, target_language, learned`). Duplicate words are case/whitespace-insensitive and skipped by default. Exported CSV is UTF-8 with BOM for spreadsheet compatibility; JSON uses UTF-8.
-- Data is stored in `%LOCALAPPDATA%\WordDock` (`config.json`, `library.json`, `backup\`, and `recovery\`). Writes replace atomically and preserve the prior file as a backup. Corrupt files are quarantined; a file from a newer schema prevents startup without being overwritten.
+The tray icon controls the app. The card appears near the bottom-right corner, above the taskbar; drag it wherever you like. Open **Settings** from the tray to change the interval, order, active collections, theme, font size, card width, topmost behavior, learned filtering, and launch-at-login.
 
-Sample import files: [`samples/sample_vocabulary.csv`](samples/sample_vocabulary.csv) and [`samples/sample_vocabulary.json`](samples/sample_vocabulary.json).
+## Usage
 
-Optional English collections adapted from public Wikipedia glossaries are in [`vocabularies/`](vocabularies/) (computer science, artificial intelligence, philosophy). Definitions retain attribution in each CSV source field. Wikipedia text is available under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/); these CSVs are community-maintained imports, not book excerpts or an official glossary edition. [`ThinkingFastAndSlow.csv`](vocabularies/ThinkingFastAndSlow.csv) is a 613-entry study set of words and phrases grouped by book topic, with contextual Spanish translations and study examples, not text copied from the book. Import them through Manage collections.
+### Vocabulary card
 
-## Idle measurement
+- Left-click the tray icon to show or hide the card.
+- Hover the card to reveal its controls, or press **Ctrl+Shift+Space** to show them from anywhere.
+- Drag the card to reposition it. The close button hides the card without taking focus; the tray app keeps running.
+- **Show more** opens the details window with the full meaning, example, source, languages, a learned/review toggle, and **Pronounce**.
 
-1. Build and start `target\release\worddock.exe`; leave the card visible and do not interact with it.
-2. In another PowerShell window, run `powershell -ExecutionPolicy Bypass -File .\scripts\measure-worddock.ps1 -Seconds 60`.
-3. Record Private Bytes, working set, normalized CPU percentage, handles, and deltas. CPU is process CPU time divided by elapsed wall time and logical processor count. This is a measurement procedure, not a performance guarantee.
+### Tendedero clipboard shelf
 
-## Manual interaction checklist
+- Press **Ctrl+Alt+Space**, rest the pointer at the top edge of the screen, or choose **Tendedero** from the tray menu.
+- The shelf fades in without taking focus, so typing and browser navigation continue normally.
+- Use `<` and `>` to page through up to ten items; it tucks away after the pointer leaves.
+- Click a paper card to restore its content. Right-click a card to copy, remove it, or clear the shelf.
+- Images are normalized for correct stride, orientation, and aspect ratio. Copied files remain references to their original paths and are never duplicated.
 
-- Tray click toggles the card; tray Exit terminates; card close button hides it without stealing focus.
-- Next/previous, pause/resume, mark learned, review again, and learned filtering.
-- Create/rename/delete a collection; add/edit/delete entries; select an active collection.
-- In Manage collections, filter by a word, a Spanish meaning, and part of an example; confirm the "Showing N of M" count and that add/edit/delete still target the filtered row.
-- Open Word details from the tray and click Pronounce; confirm the word is spoken and a second click restarts it instead of queueing.
-- Import both sample formats; inspect validation/duplicate preview; test cancel and export both formats.
-- Restart and verify saved settings, collection, learned state, and card position.
-- Move the card between monitors with different DPI scales; disconnect/reconnect a monitor.
-- Lock and unlock the Windows session; verify rotation suspends during lock.
-- Enable and disable launch-at-login; confirm the Run-key entry changes as expected.
-- With a disposable data directory, test malformed JSON recovery and confirm a newer schema is left untouched.
+### Collections and study tools
 
-## Scope and limitations
+- **Manage collections** adds, renames, and deletes collections and entries, imports CSV/JSON, and exports both formats.
+- The entry filter matches words, meanings, and examples as you type. It reports `Showing N of M` and the learned percentage for the selected collection.
+- Learned entries can be excluded from rotation. Marking an entry learned or reviewing it again updates the card immediately.
 
-WordDock has no network access, accounts, telemetry, background polling, embedded browser, Explorer injection, cloud sync, updater, or installer. Standard Windows push buttons retain system theme styling; dark backgrounds and text are custom-painted. Pronunciation uses the offline Windows SAPI voices already installed on the machine; it never contacts a service. Performance figures must be measured on the target system using the included script.
+### Global hotkeys
 
-Clothesline keeps up to 10 distinct text, DIB screenshot/image, or copied-file-path items. Image bytes and history metadata are encrypted with Windows DPAPI for the current account; copied files remain references to their original paths and are never duplicated. It respects Windows' `ExcludeClipboardContentFromMonitorProcessing` privacy marker. HTML/RTF preservation, drag-and-drop, screenshot capture interception, and screenshot-folder watching are not implemented. The top-edge trigger currently targets the primary monitor.
+| Shortcut | Action |
+|---|---|
+| `Ctrl+Shift+Space` | Reveal the card's controls |
+| `Ctrl+Alt+Space` | Show or hide the Tendedero |
+
+A hotkey may be unavailable if another application already owns it; the tray menu and the top-edge trigger remain available.
+
+## Data and privacy
+
+WordDock stores its data in `%LOCALAPPDATA%\WordDock`:
+
+- `config.json` — preferences, selected collections, position, and presentation mode.
+- `library.json` — collections and entries.
+- `clothesline.json` — shelf history.
+- `backup\` — previous copies of files.
+- `recovery\` — quarantined files that could not be read.
+
+Writes replace files atomically and keep the previous version as a backup. A file from a newer schema stops startup without being overwritten. Shelf metadata and copied image bytes are encrypted with DPAPI for the current Windows account. WordDock makes no network requests and includes no telemetry.
+
+Pronunciation uses the offline SAPI voices already installed on the machine; it never contacts a service. If no English voice is installed, WordDock falls back to the system default voice.
+
+## Vocabulary files
+
+Sample imports: [`samples/sample_vocabulary.csv`](samples/sample_vocabulary.csv) and [`samples/sample_vocabulary.json`](samples/sample_vocabulary.json).
+
+Additional collections are in [`vocabularies/`](vocabularies/):
+
+- `ComputerScience.csv`, `ArtificialIntelligence.csv`, and `Philosophy.csv` are adapted from public Wikipedia glossaries. Definitions retain attribution in each CSV source field. Wikipedia text is available under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/); these are community-maintained imports, not official glossary editions.
+- `ThinkingFastAndSlow.csv` is a 613-entry study set of words and phrases grouped by book topic, with contextual Spanish translations and original study sentences. It is a vocabulary study aid, not text copied from the book.
+
+Import limits are 10 MiB and 20,000 data rows. CSV accepts a header or positional columns (`word, meaning, example, source, source_language, target_language, learned`). Duplicate words are case- and whitespace-insensitive and skipped by default. Exported CSV is UTF-8 with a BOM for spreadsheet compatibility; JSON is UTF-8.
+
+## Development
+
+| File | Responsibility |
+|---|---|
+| `src/main.rs` | Single-instance startup, window classes, hotkeys, clipboard listener, and message loop. |
+| `src/app.rs` | Owns `App`, routes messages, updates the card, and integrates the Tendedero. |
+| `src/model.rs` | Serializable configuration and vocabulary types. |
+| `src/rotation.rs` | Eligibility and sequential/shuffled traversal across selected collections. |
+| `src/ui/card.rs` | Card measurement, painting, positioning, and pointer controls. |
+| `src/ui/settings.rs` | Settings window and live preview. |
+| `src/ui/collections.rs` | Collection/entry manager, import/export, and live filtering. |
+| `src/ui/details.rs` | Details window and SAPI pronunciation button. |
+| `src/speech.rs` | Lazy COM SAPI voice wrapper with English-first SSML and a plain fallback. |
+| `src/clothesline.rs` | Top-edge sensor, shelf rendering, DIB normalization, history, and item actions. |
+| `src/win.rs` | Win32 helpers for clipboard/DIB, DPAPI, monitors, and owned GDI resources. |
+| `src/store.rs` | JSON storage, backups, and recovery. |
+
+The detailed manual test checklist and the idle-measurement procedure live in [`docs/manual-testing.md`](docs/manual-testing.md).
+
+Idle footprint is small, but measure it on your own machine rather than trusting a number from another desktop:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\measure-worddock.ps1 -Seconds 60
+```
+
+## Limitations
+
+- Windows 11 x64 is the supported target; older Windows versions are not currently tested.
+- The top-edge trigger targets the primary monitor only.
+- HTML/RTF clipboard preservation, drag-and-drop, screenshot-folder watching, and a rich Quick Look-style preview are not implemented.
+- There is no installer, auto-updater, cloud sync, or account system.
+- Standard Windows push buttons keep the system theme; custom colors apply to the card and the Tendedero.
+
+## Contributing
+
+Issues and pull requests are welcome. Keep the app native (Win32/GDI) and local-first: avoid webviews, accounts, telemetry, and new network dependencies. Run `cargo fmt --check`, strict Clippy, and `cargo test` before opening a pull request, and describe the manual verification you performed.
+
+By contributing, you agree that your changes are licensed under the MIT license.
+
+## License
+
+MIT — see [LICENSE](LICENSE).
